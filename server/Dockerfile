@@ -1,4 +1,4 @@
-# Dockerfile for Django REST Framework Production Server (Railway & Docker Compose compatible)
+# Dockerfile for Django REST Framework Production Server (Railway Root Directory = server)
 
 FROM python:3.12-slim
 
@@ -6,32 +6,23 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV DJANGO_SETTINGS_MODULE=config.settings.production
 
-WORKDIR /app
+WORKDIR /app/server
 
-# Install system dependencies (PostgreSQL client dev headers, etc.)
+# Install system dependencies (PostgreSQL client runtime + dev headers)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
+    libpq5 \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install (supports both repo-root and server/ build contexts)
-COPY requirements.txt* server/requirements.txt* /tmp/
-RUN pip install --no-cache-dir -r /tmp/requirements.txt
+# Copy requirements and install
+COPY requirements.txt /app/server/requirements.txt
+RUN pip install --no-cache-dir -r /app/server/requirements.txt
 
-# Copy server and shared modules (supports both repo-root and server/ build contexts)
-COPY . /tmp/ctx/
-RUN mkdir -p /app/server /app/shared && \
-    if [ -f /tmp/ctx/server/manage.py ]; then \
-        cp -a /tmp/ctx/server/. /app/server/ && \
-        cp -a /tmp/ctx/shared/. /app/shared/; \
-    else \
-        cp -a /tmp/ctx/. /app/server/ && \
-        cp -a /tmp/ctx/shared/. /app/shared/; \
-    fi && \
-    rm -rf /tmp/ctx
-
-WORKDIR /app/server
+# Copy server and shared modules
+COPY . /app/server/
+COPY shared/ /app/shared/
 
 RUN python manage.py collectstatic --noinput
 
