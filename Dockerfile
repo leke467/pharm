@@ -1,4 +1,4 @@
-# Dockerfile for Django REST Framework Production Server (Railway & Docker Compose compatible)
+# Root Dockerfile for Django REST Framework Production Server (Railway & Docker Compose compatible)
 
 FROM python:3.12-slim
 

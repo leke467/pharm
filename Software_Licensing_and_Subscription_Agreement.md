@@ -1,400 +1,70 @@
-# SOFTWARE TRIAL, LICENSING, PRODUCTION DEPLOYMENT, SUBSCRIPTION & SUPPORT AGREEMENT
+# SOFTWARE TRIAL, LICENSING, DEPLOYMENT & SUBSCRIPTION AGREEMENT
 
-**THIS SOFTWARE TRIAL, LICENSING, PRODUCTION DEPLOYMENT, SUBSCRIPTION & SUPPORT AGREEMENT** (this **"Agreement"**) is made and entered into on this **________ day of ____________________, 2026** (the **"Effective Date"**),
+**THIS AGREEMENT** is made on this **________ day of ____________________, 2026** (**"Effective Date"**) **BETWEEN:**
 
-**BETWEEN:**
-
-1. **APEXLABS GLOBAL RESOURCES LIMITED**, a private company limited by shares duly incorporated under the Companies and Allied Matters Act (CAMA) 2020 of the Federal Republic of Nigeria (**RC No: 9341285** | **TIN: 2622485340557**), having its registered office at **33, Nurrudeen Street, Olayemi Bustop, Ayobo, Lagos State, Nigeria** (hereinafter referred to as **"Apexlabs"**, the **"Developer"**, or the **"Licensor"**, which expression shall where the context so admits include its successors-in-title and permitted assigns) of the first part;
-
-**AND**
-
-2. **[INSERT PHARMACY REGISTERED NAME]**, a pharmaceutical retail/wholesale business duly registered under the laws of the Federal Republic of Nigeria (**RC/BN No: [Insert RC/BN Number]**), having its principal office at **[Insert Pharmacy Head Office Address, City, State, Nigeria]** (hereinafter referred to as the **"Client"** or **"Pharmacy"**, which expression shall where the context so admits include its successors-in-title and permitted assigns) of the second part.
-
-Apexlabs and the Client are hereinafter individually referred to as a **"Party"** and collectively as the **"Parties"**.
+1. **APEXLABS GLOBAL RESOURCES LIMITED** (**RC: 9341285** | **TIN: 2622485340557**), a company incorporated under the laws of the Federal Republic of Nigeria with its registered address at **33, Nurrudeen Street, Olayemi Bustop, Ayobo, Lagos State, Nigeria** (**"Apexlabs"** or **"Developer"**); **AND**
+2. **[INSERT PHARMACY REGISTERED NAME]** (**RC/BN: [Insert Number]**), having its principal office at **[Insert Pharmacy Head Office Address]** (**"Client"** or **"Pharmacy"**).
 
 ---
 
-## WHEREAS:
+## 1. SOFTWARE LICENSE & 5-BRANCH SCOPE
+1.1 **Grant of License:** Subject to the terms of this Agreement, Apexlabs grants the Pharmacy a **non-exclusive, non-transferable, revocable commercial license** to use the proprietary offline-first **Pharmacy Management System** (the **"Software"**) solely for the Pharmacy's internal operations across up to **five (5) Authorized Branches** listed in the Schedule below.  
+1.2 **License, Not Sale:** The Software is **licensed, not sold**. Paying the deployment and subscription fees grants the right to use the Software and does not transfer ownership of the Software or its source code. Deploying the Software to any additional branch beyond the initial five (5) branches requires written authorization and an additional branch fee.
 
-A. **Apexlabs** carries on the business of software and hardware development and the provision of digital and information technology solutions, and has designed, developed, and owns all Intellectual Property Rights in a proprietary multi-branch, offline-first **Pharmacy Management System** (the **"Software"**), featuring point-of-sale (POS) billing, product and batch expiry tracking (FEFO/FIFO), immutable inventory movement ledgers, stock count approval workflows, event-based multi-branch cloud synchronization, role-based access control (RBAC), thermal receipt printing, and comprehensive audit logging.
+## 2. SOFTWARE OWNERSHIP vs. PHARMACY DATA OWNERSHIP
+2.1 **Apexlabs Owns the Software:** Apexlabs retains 100% ownership of all Intellectual Property Rights in the Software, including all desktop and server source code, database schemas, offline synchronization engine, UI/UX design, documentation, and updates. The Pharmacy shall not copy, resell, sublicense, reverse engineer, decompile, or tamper with the Software's licensing or audit mechanisms, nor use it to build a competing product.  
+2.2 **The Pharmacy Owns Its Business Data:** The Pharmacy retains **100% ownership of all Client Data** entered or generated in the Software (including product lists, batch/expiry records, stock levels, pricing, sales transactions, supplier details, financial reports, and staff audit logs). Apexlabs claims no ownership over any Pharmacy business records.
 
-B. The **Client** operates a pharmacy business across up to **five (5) branches** as listed in **Schedule 1 (Authorized Branches)** and desires to evaluate, deploy into live production, and obtain a commercial license to use the Software across those five (5) branches, together with ongoing cloud synchronization infrastructure, maintenance, and technical support services.
+## 3. TRIAL PERIOD, FEES & SUBSCRIPTION TERMS
 
-C. **Apexlabs** agrees to provide a two (2) month trial period, perform full production deployment and onboarding across the five (5) Authorized Branches for a one-time **Initial Production Deployment Fee of ₦500,000 (Five Hundred Thousand Naira)**, and provide ongoing software licensing, multi-branch synchronization infrastructure, updates, and support for a flat recurring **Monthly Subscription Fee of ₦20,000 (Twenty Thousand Naira) per month**, subject to the terms and conditions of this Agreement.
-
-**NOW THEREFORE**, in consideration of the mutual covenants, promises, and payments set forth herein, the Parties hereby agree as follows:
-
----
-
-## 1. DEFINITIONS AND INTERPRETATION
-
-1.1 **Definitions:** In this Agreement, unless the context otherwise requires:
-- **"Authorized Branches"** means the specific pharmacy retail or warehouse locations operated by the Client (up to a maximum of five (5) branches under the base subscription) identified in **Schedule 1**.
-- **"Client Data"** means all electronic business records, product catalogs, batch and expiry records, inventory quantities, stock count logs, supplier details, pricing data, sales transactions, customer records, expense logs, staff account records, and audit trail entries inputted or generated by the Client through its use of the Software.
-- **"Confidential Information"** means all non-public technical, operational, financial, or commercial information disclosed by one Party to the other, including (for Apexlabs) the Software source code, database schema, synchronization architecture, security mechanisms, and pricing terms, and (for the Client) all Client Data, financial margins, sales volumes, and internal pharmacy workflows.
-- **"Custom Development"** means any new module, bespoke feature, workflow redesign, or third-party integration requested by the Client that is not part of the standard release of the Software.
-- **"Initial Production Deployment Fee"** means the one-time fee of **₦500,000 (Five Hundred Thousand Naira)** payable by the Client for initial production setup, branch configuration, onboarding, and deployment of the Software as detailed in Clause 5.1 and **Schedule 3**.
-- **"Intellectual Property Rights"** means all copyrights, patents, trade secrets, trademarks, moral rights, database rights, source code rights, UI/UX design rights, and any other intellectual property rights whether registered or unregistered anywhere in the world.
-- **"Monthly Subscription Fee"** means the flat recurring monthly fee of **₦20,000 (Twenty Thousand Naira)** covering the five (5) Authorized Branches for continued software licensing, central cloud synchronization services, routine updates, and standard technical support as detailed in Clause 5.2.
-- **"Offline-First Architecture"** means the capability of the Software installed on a local branch workstation to continue processing sales, updating local inventory ledgers, and recording audit logs into an encrypted/local database when internet connectivity is unavailable, and automatically synchronizing such events with the central server once internet connectivity is restored.
-- **"Production Deployment"** means the configuration and installation of the Software for live commercial operations across the Authorized Branches.
-- **"Trial Period"** means the two (2) calendar month evaluation period described in Clause 4.
-- **"Updates"** means bug fixes, security patches, stability improvements, and minor enhancements to existing features provided by Apexlabs as part of routine maintenance.
-
----
-
-## 2. GRANT OF LICENSE AND SCOPE OF USE
-
-2.1 **License Grant:** Subject to the Client's timely payment of applicable fees and compliance with this Agreement, Apexlabs hereby grants to the Client a **non-exclusive, non-transferable, non-sublicensable, revocable commercial license** to install, access, and use the Software solely for the Client's internal pharmacy operations across up to **five (5) Authorized Branches** listed in **Schedule 1**.
-
-2.2 **License, Not a Sale:** The Client acknowledges and agrees that **the Software is licensed, not sold**. Payment of the Initial Production Deployment Fee (₦500,000) and the Monthly Subscription Fee (₦20,000/month) grants the Client permission to use the Software under this Agreement and **does not** transfer ownership of the Software, source code, database design, or underlying technology to the Client.
-
-2.3 **Branch Limit (5 Branches):** The base license and the ₦20,000 Monthly Subscription Fee cover up to **five (5) Authorized Branches**. The Client shall not install, deploy, or use the Software at any additional branch, warehouse, or separate business entity without prior written authorization from Apexlabs and execution of a written addendum setting out the applicable additional branch setup and subscription fees specified in **Schedule 2**.
-
----
-
-## 3. SOFTWARE OWNERSHIP AND INTELLECTUAL PROPERTY RESTRICTIONS
-
-3.1 **Ownership by Apexlabs:** Apexlabs retains sole and exclusive ownership of all right, title, and interest in and to the Software, including without limitation:
-(a) all desktop and server source code, object code, scripts, APIs, and executables;
-(b) the database structure, relational schema, immutable inventory ledger design, and event-based synchronization engine;
-(c) the user interface (UI), user experience (UX) design, screen layouts, and user documentation; and
-(d) all Updates, enhancements, modifications, and derivative works created by Apexlabs (whether or not suggested or requested by the Client).
-
-3.2 **Restrictions on Use:** The Client shall **not** (and shall not permit any employee, contractor, or third party to):
-(a) copy, reproduce, distribute, resell, lease, rent, sublicense, or make the Software available to any third party or unaffiliated pharmacy;
-(b) reverse engineer, decompile, disassemble, decrypt, or attempt to derive the source code, database schema, or underlying algorithms of the Software;
-(c) modify, tamper with, bypass, or disable any subscription/licensing enforcement, JWT authentication, role-based access control, or audit logging mechanism within the Software;
-(d) remove, obscure, or alter any copyright, trademark, or proprietary notices of Apexlabs displayed in the Software; or
-(e) use the Software, its database structure, or its workflow design to build, or instruct a third-party developer to build, a competing pharmacy management software product.
-
----
-
-## 4. TWO-MONTH (2-MONTH) TRIAL PERIOD
-
-4.1 **Trial Period Duration:** Apexlabs grants the Client a **two (2) calendar month Trial Period** commencing on **[Insert Trial Start Date]** and ending on **[Insert Trial End Date]** (the **"Trial Period"**) to evaluate the Software in live pharmacy operations.
-
-4.2 **Scope of Trial:** During the Trial Period, the Client shall be entitled to test and evaluate the core modules of the Software (including POS sales billing, FEFO/FIFO batch and expiry tracking, stock count workflows, role-based staff accounts, audit logs, thermal receipt printing, and offline-to-cloud synchronization) without any charge for the Monthly Subscription Fee (₦20,000/month is waived during the 2-month Trial Period).
-
-4.3 **Production Fee & Transition to Monthly Subscription:**
-- **Initial Production Deployment Fee (₦500,000):** The one-time Initial Production Deployment Fee of **₦500,000 (Five Hundred Thousand Naira)** covers the full production configuration, branch deployment, data onboarding, and staff training across the five (5) Authorized Branches in accordance with Clause 5.1, and is payable **[prior to full production deployment across the 5 branches / upon successful completion of the pilot evaluation prior to full 5-branch production rollout]**.
-- **Commencement of ₦20,000 Monthly Subscription:** Immediately upon expiration of the two (2) month Trial Period on **[Insert Subscription Start Date]**, the recurring **Monthly Subscription Fee of ₦20,000 (Twenty Thousand Naira) per month** shall commence and become payable in accordance with Clause 5.2.
-
-4.4 **Non-Continuation at End of Trial:** If the Client elects not to continue with the Software prior to the expiration of the Trial Period, the Client shall notify Apexlabs in writing before the final day of the Trial Period. Upon such notice, Apexlabs shall provide the Client with a complete export of any Client Data entered during the Trial Period in standard format (Excel/CSV), deactivate the trial license, and uninstall the Software from the Client's devices.
-
----
-
-## 5. FEES, SUBSCRIPTION STRUCTURE AND PAYMENT TERMS
-
-5.1 **Initial Production Deployment Fee — ₦500,000 (One-Time Fee):**
-(a) The Client shall pay Apexlabs a one-time **Initial Production Deployment Fee of ₦500,000 (Five Hundred Thousand Naira)**.
-(b) This one-time fee covers the engineering, configuration, deployment, and onboarding services required to deploy the Software into commercial production across up to five (5) Authorized Branches, specifically:
-   - (i) **Organization & Cloud Provisioning:** Provisioning of the Client's isolated multi-tenant organization environment on the central server and database initialization;
-   - (ii) **5-Branch Setup:** Registration and configuration of up to five (5) Authorized Branches, branch stock locations, and synchronization nodes;
-   - (iii) **Desktop Application Installation:** Installation and local database setup of the Offline-First Desktop Application on the designated POS/admin workstations at the Authorized Branches;
-   - (iv) **Product & Opening Inventory Onboarding:** Formatting and importing the Client's initial product catalog, drug categories, batch/expiry records, pricing, and opening stock balances (supplied by the Client in Excel/CSV format);
-   - (v) **Staff Accounts & Role Configuration:** Creation of initial staff user accounts and assignment of granular role-based permissions (Cashier, Pharmacist, Storekeeper, Branch Manager, Organization Admin);
-   - (vi) **POS & Thermal Printer Configuration:** Setup of receipt templates and connection of compatible thermal receipt printers and barcode scanners;
-   - (vii) **Staff Onboarding & Training:** Practical training sessions for branch cashiers, pharmacists/storekeepers, and head-office management; and
-   - (viii) **Initial Workflow Customization:** Minor configuration adjustments required to align the Software with the Client's standard pharmacy workflow.
-(c) Once full production deployment across the Authorized Branches has been executed, the Initial Production Deployment Fee of ₦500,000 is fully earned and **non-refundable**.
-
-5.2 **Monthly Subscription Fee — ₦20,000/Month (Flat Rate for All 5 Branches):**
-(a) Following the 2-month Trial Period, the Client shall pay Apexlabs a flat recurring **Monthly Subscription Fee of ₦20,000 (Twenty Thousand Naira) per month** (or **₦240,000 per annum** if billed annually in advance).
-(b) This flat ₦20,000/month fee covers all **five (5) Authorized Branches combined** and includes:
-   - (i) Continued active commercial license to operate the Software across the five (5) Authorized Branches;
-   - (ii) Operation, hosting, and maintenance of the central cloud server and event-based synchronization infrastructure;
-   - (iii) Continuous multi-branch database synchronization (sales transactions, inventory ledger movements, stock counts, pricing updates, and audit logs);
-   - (iv) Routine Software Updates, bug fixes, security patches, and database maintenance;
-   - (v) Automated cloud backups of all synchronized central data; and
-   - (vi) Standard remote technical support during the Support Hours set out in **Schedule 4**.
-
-5.3 **Exclusions from the ₦20,000 Monthly Subscription Fee:**
-For the avoidance of doubt, the ₦20,000 Monthly Subscription Fee **does not** include:
-(a) **Bespoke / Custom Feature Development:** Major new features, custom modules, external third-party software integrations, or structural software redesigns requested specifically by the Client (which shall be quoted and billed separately under a written Change Order);
-(b) **Physical Hardware:** Purchase, repair, or replacement of desktop computers, laptops, POS hardware, thermal receipt printers, barcode scanners, LAN cables, routers, or UPS/inverter systems;
-(c) **Internet & Power Supply:** Internet service provider (ISP) data plans or electricity/power generation at the Client's branches;
-(d) **Third-Party Consumption Charges:** Optional third-party per-unit services such as bulk SMS gateways, WhatsApp API messaging charges, or bank POS terminal charges; or
-(e) **Non-Standard On-Site Visits:** Physical travel and on-site visits to branches after initial onboarding where the issue is caused by Client hardware/network failure or can be resolved remotely.
-
-5.4 **Invoicing, Payment Due Dates & Late Payment:**
-(a) The Monthly Subscription Fee of ₦20,000 is payable **in advance** on or before the **[1st / 5th]** day of each calendar month (or on the monthly anniversary of the Production Commencement Date) via electronic bank transfer to Apexlabs' designated corporate bank account specified in **Schedule 2**.
-(b) **Grace Period:** If any Monthly Subscription Fee remains unpaid **seven (7) days** after its due date, Apexlabs shall notify the Client in writing (including via email or official WhatsApp notice).
-(c) **Suspension for Non-Payment:** If any overdue fee remains unpaid **fourteen (14) days** after the due date, Apexlabs reserves the right, without liability, to suspend central cloud synchronization, remote dashboard access, and technical support, and/or allow the branch subscription license token to pause until all outstanding arrears are settled in full.
-
-5.5 **Annual Subscription Review:** The Monthly Subscription Fee of ₦20,000/month is fixed for the first **twelve (12) months** following the Production Commencement Date. Thereafter, Apexlabs may review the Monthly Subscription Fee no more than once per twelve (12) month period to reflect changes in cloud infrastructure or economic conditions in Nigeria, subject to providing the Client with at least **thirty (30) days' prior written notice**.
-
-5.6 **Taxes:** All fees stated herein are exclusive of applicable Value Added Tax (VAT) or statutory taxes under Nigerian law, which shall, where applicable, be borne by the Client.
-
----
-
-## 6. INSTALLATION, BRANCH DEPLOYMENT AND HARDWARE
-
-6.1 **Authorized Branch Deployment:** Apexlabs shall deploy and configure the Software for the five (5) Authorized Branches listed in **Schedule 1**.
-
-6.2 **Client Hardware & Environment Responsibility:** The Client is solely responsible for providing and maintaining functional hardware and operating environments at each branch, including:
-(a) Desktop computers or laptops meeting the minimum specifications in **Schedule 4**, running genuine, malware-free Windows operating systems;
-(b) Compatible thermal receipt printers and USB barcode scanners;
-(c) Uninterruptible Power Supply (UPS) / inverter backup on all desktop computers to prevent sudden power-cut hardware shutdowns during local database transactions; and
-(d) Working internet connectivity at each branch sufficient to allow regular daily synchronization with the central server.
-
-6.3 **Workstation Replacement / OS Re-Installation:** If a branch computer suffers a hard drive failure, virus infection, operating system formatting, or hardware replacement after initial deployment, Apexlabs will assist with remote re-installation of the Software free of charge up to **two (2) times per twelve-month period**, after which additional workstation re-installations may attract the standard re-installation fee stated in **Schedule 2**.
-
----
-
-## 7. OFFLINE-FIRST OPERATION AND SYNCHRONIZATION ARCHITECTURE
-
-7.1 **Offline-First Operation:** The Software is engineered with an **Offline-First Architecture** specifically suited for Nigerian operating conditions:
-(a) Each branch desktop application maintains a local database (SQLite WAL mode) capable of processing sales, selecting product batches (FEFO/FIFO), printing thermal receipts, recording stock movements, and capturing staff audit logs even when the internet is completely unavailable.
-(b) When internet connectivity is available, the background synchronization worker automatically transmits queued local events to the central cloud server over encrypted HTTPS and downloads updates from Head Office and other branches.
-
-7.2 **Important Operational Conditions of Offline Mode:** The Client acknowledges and agrees that:
-(a) **Sync Dependency on Branch Internet:** While a branch has no internet connection, transactions recorded at that branch remain local and **will not appear** on the central Head Office reports or other branches until internet connectivity is restored at that branch and synchronization completes;
-(b) **Propagation of Central Updates:** Price changes, new products, stock transfers, or user permission changes made centrally will only take effect at an offline branch once that branch connects to the internet and synchronizes;
-(c) **System Clock Integrity:** The Client shall ensure branch staff do not manually alter or backdate the Windows system date/time clock on branch computers, as accurate timestamps are required for audit logs and event synchronization; and
-(d) **Protection of Unsynchronized Local Data:** Any sales or inventory events recorded while a branch is offline reside **solely on that branch computer's storage drive** until synchronized to the cloud. Apexlabs shall not be liable for the loss of unsynchronized local transactions if a branch operates offline for an extended period and its computer hard drive is destroyed, formatted, or stolen before connecting to the internet to synchronize. The Client agrees to ensure each branch connects to the internet to synchronize **at least once every business day**.
-
----
-
-## 8. DATA OWNERSHIP, PRIVACY AND CONFIDENTIALITY
-
-8.1 **The Pharmacy Owns Its Business Data:** As between the Parties, **the Client retains 100% ownership of all right, title, and interest in and to all Client Data** (including all sales records, product lists, batch and expiry data, inventory counts, supplier records, pricing, financial reports, staff records, and audit logs). Apexlabs claims no ownership over the Client's business data.
-
-8.2 **Limited License to Host and Synchronize:** The Client grants Apexlabs a limited, non-exclusive license to host, store, transmit, synchronize, back up, and process Client Data strictly as necessary to provide, maintain, and support the Software under this Agreement.
-
-8.3 **Strict Confidentiality of Pharmacy Records:**
-(a) Apexlabs acknowledges that the Client's sales figures, profit margins, inventory quantities, pricing strategies, supplier details, and staff audit logs are sensitive commercial secrets of the Pharmacy.
-(b) Apexlabs shall treat all Client Data as strictly confidential and shall **never** sell, rent, disclose, or share any Client Data with any competing pharmacy, third party, or unauthorized person, save only where disclosure is compelled by Nigerian law or order of a court of competent jurisdiction.
-(c) Access to Client Data by Apexlabs personnel shall be restricted strictly to authorized engineering/support staff for deployment, synchronization maintenance, backup verification, or troubleshooting requested by the Client.
-
-8.4 **Compliance with the Nigeria Data Protection Act (NDPA) 2023:** With respect to any personal data of employees or customers contained within Client Data, the Client acts as the "Data Controller" and Apexlabs acts as the "Data Processor" within the meaning of the **Nigeria Data Protection Act (NDPA) 2023**. Both Parties shall maintain appropriate technical and organizational security measures to protect such data against unauthorized access, alteration, or disclosure.
-
----
-
-## 9. SECURITY, STAFF USER ACCOUNTS AND AUDIT LOGS
-
-9.1 **User Accounts & Role-Based Access Control:** The Software provides granular role-based user accounts. The Client is solely responsible for:
-(a) determining which staff members are issued accounts and the appropriate permission roles assigned to each staff member;
-(b) ensuring that staff members protect their passwords/PINs and do not share login credentials at POS terminals; and
-(c) promptly deactivating the user account of any staff member who resigns, is dismissed, or is reassigned.
-
-9.2 **Responsibility for Credential Use:** All transactions, voids, returns, stock adjustments, stock count approvals, and price changes performed under a valid staff user account shall be deemed authorized by the Client. Apexlabs shall not be liable for financial losses, cash shortages, or stock discrepancies arising from internal employee dishonesty, shared passwords, or failure by the Client to revoke a former employee's account.
-
-9.3 **Audit Logs:**
-(a) The Software maintains an immutable **Audit Trail & Inventory Movement Ledger** that logs user logins, sales transactions, voids, price edits, stock adjustments, and approval actions with user IDs and timestamps.
-(b) The Client is expressly authorized to use, inspect, and export all system audit logs for internal auditing, stock reconciliation, staff performance review, disciplinary proceedings, or legal investigations.
-(c) While the Audit Logging system provides robust digital traceability, the Client remains responsible for conducting periodic physical stock audits and daily cash reconciliations.
-
----
-
-## 10. BACKUPS AND DATA RECOVERY
-
-10.1 **Cloud Backups:** During the active Subscription Term, Apexlabs shall maintain automated regular backups of all **synchronized** Client Data stored on the central PostgreSQL cloud database.
-
-10.2 **Local Device Care:** The Client shall ensure that staff do not delete local Software directories, tamper with local SQLite database files, install pirated/infected software, or format branch computers without first ensuring all offline transactions have been synchronized to the central server.
-
-10.3 **Data Recovery Assistance:** In the event of hardware replacement or corruption on a branch workstation, Apexlabs shall assist the Client in restoring the branch environment using the latest synchronized data from the central cloud server.
-
----
-
-## 11. SUPPORT, MAINTENANCE AND UPDATES
-
-11.1 **Technical Support:** During the active Subscription Term, Apexlabs shall provide technical support to the Client's designated managers/administrators via telephone, WhatsApp, email, and remote desktop software (AnyDesk / RustDesk / TeamViewer) in accordance with the Service Level Agreement in **Schedule 4**.
-
-11.2 **Updates & Maintenance:** Apexlabs shall provide routine Updates (bug fixes, security patches, and stability improvements) at no extra cost as part of the ₦20,000 Monthly Subscription Fee. The Client agrees to allow the installation of Updates across all five (5) branches so that all branches remain on compatible versions.
-
-11.3 **Custom Development Separately Priced:** Any request by the Client for bespoke features, new operational modules, or custom integrations outside standard maintenance Updates shall be subject to a separate written scope and development fee agreed between the Parties.
-
----
-
-## 12. SERVICE AVAILABILITY AND THIRD-PARTY SERVICES
-
-12.1 **Synchronization Availability:** Apexlabs shall use commercially reasonable efforts to maintain high availability of the central cloud synchronization service. However, because cloud connectivity relies on Nigerian telecommunications networks, submarine cable routing, and upstream cloud data centers, Apexlabs does not guarantee uninterrupted 100% online uptime.
-
-12.2 **Uninterrupted Branch POS via Offline Mode:** During any temporary internet outage or scheduled central server maintenance, the Client's branches can continue uninterrupted local POS sales and inventory operations via the Software's Offline-First mode, and all queued events will automatically synchronize once connectivity returns.
-
----
-
-## 13. WARRANTIES AND REGULATORY DISCLAIMER
-
-13.1 **Performance Warranty:** Apexlabs warrants that the Software will perform substantially in accordance with its documentation when operated on compatible hardware, and that all deployment and support services will be rendered with professional care and skill.
-
-13.2 **Pharmaceutical Regulatory Disclaimer:** The Software is a **commercial point-of-sale, inventory, and business management tool**. It does **not** substitute for the professional clinical judgment of a licensed Pharmacist. The Client and its Superintendent/Branch Pharmacists remain solely responsible for compliance with all statutory requirements of the **Pharmacists Council of Nigeria (PCN)**, **NAFDAC**, **NDLEA**, and applicable Nigerian healthcare, dispensing, and tax regulations.
-
----
-
-## 14. LIMITATION OF LIABILITY
-
-14.1 **Exclusion of Indirect Damages:** To the maximum extent permitted by Nigerian law, neither Party shall be liable to the other for any indirect, special, incidental, punitive, or consequential loss or damage, including loss of profit, loss of revenue, business interruption, employee theft, or physical stock shrinkage, arising out of or in connection with this Agreement.
-
-14.2 **Cap on Liability:** In all events, Apexlabs' maximum aggregate liability to the Client for all claims arising under or in connection with this Agreement (whether in contract, tort, negligence, or otherwise) shall **not exceed the total Monthly Subscription Fees actually paid by the Client to Apexlabs during the six (6) months immediately preceding the event giving rise to the claim** (or, if the claim arises within the first six (6) months of the Agreement, an amount not exceeding **50% of the Initial Production Deployment Fee** paid).
-
----
-
-## 15. TERM, TERMINATION AND POST-TERMINATION DATA EXPORT
-
-15.1 **Term:** This Agreement takes effect on the Effective Date and continues throughout the 2-Month Trial Period and thereafter on a continuous monthly (or annual) subscription basis unless terminated in accordance with Clause 4.4 or this Clause 15.
-
-15.2 **Termination by Notice:** Following Production Deployment, either Party may terminate the subscription by giving the other Party at least **thirty (30) days' prior written notice** (or **sixty (60) days' prior written notice** if terminated by Apexlabs without cause, to ensure the Client has ample transition time).
-
-15.3 **Termination for Breach or Non-Payment:** Either Party may terminate this Agreement immediately upon written notice if the other Party commits a material breach of this Agreement (including non-payment of fees overdue by more than thirty (30) days, or any breach of Clause 3 regarding Intellectual Property) and fails to remedy such breach within **fourteen (14) days** after receiving written notice thereof.
-
-15.4 **Guaranteed Data Export Upon Termination:**
-(a) Because **the Client owns its Client Data**, upon expiration or termination of this Agreement for any reason (subject to settlement of any undisputed subscription arrears accrued up to the effective termination date), Apexlabs shall, within **fourteen (14) days** of termination, deliver to the Client a complete digital export of all synchronized Client Data — including product catalogs, batch/expiry balances, stock ledgers, historical sales records, supplier lists, and audit logs — in standard, usable formats (**Microsoft Excel `.xlsx`, `.csv`, and/or JSON/SQL backup**).
-(b) Following confirmed delivery of the exported Client Data and a thirty (30) day grace period, Apexlabs shall permanently purge the Client Data from its active cloud servers.
-
-15.5 **Effect of Termination on Software License:** Upon the effective date of termination:
-(a) the Client's license to use the Software across all branches shall immediately terminate;
-(b) Apexlabs shall be entitled to deactivate the Client's subscription license and cloud synchronization access; and
-(c) completed one-time deployment fees (₦500,000) and elapsed monthly subscription fees are non-refundable.
-
----
-
-## 16. GOVERNING LAW AND DISPUTE RESOLUTION
-
-16.1 **Governing Law:** This Agreement and the rights and obligations of the Parties hereunder shall be governed by and construed in accordance with the laws of the **Federal Republic of Nigeria**.
-
-16.2 **Amicable Negotiation:** If any dispute arises out of or relates to this Agreement, senior representatives of both Parties shall first meet (in person or virtually) within **fourteen (14) days** of written notice of the dispute to attempt in good faith to resolve the matter amicably.
-
-16.3 **Mediation & Jurisdiction:** If the dispute cannot be resolved amicably within fourteen (14) days, the Parties agree to submit the dispute to mediation at the **Lagos Multi-Door Courthouse (LMDC)** (or an accredited mediation center in Lagos State, Nigeria) in accordance with the **Arbitration and Mediation Act, 2023**. If mediation does not resolve the dispute within thirty (30) days, either Party may institute proceedings before a court of competent jurisdiction in **Lagos State, Nigeria**. Nothing herein shall preclude Apexlabs from seeking urgent injunctive relief from a court of competent jurisdiction to protect its Intellectual Property Rights.
-
----
-
-## 17. GENERAL PROVISIONS
-
-17.1 **Force Majeure:** Neither Party shall be liable for delay or inability to perform its obligations (excluding payment obligations for services rendered) due to events beyond its reasonable control, including nationwide telecommunications/fiber cuts, major cloud provider outages, acts of God, civil commotion, or government actions.
-
-17.2 **Independent Contractors:** The Parties are independent contractors. Nothing in this Agreement shall be construed to create a partnership, joint venture, or employer-employee relationship between the Parties.
-
-17.3 **Entire Agreement:** This Agreement (including **Schedules 1, 2, 3, and 4**) constitutes the entire agreement between the Parties concerning its subject matter and supersedes all prior oral or written proposals, quotations, or communications.
-
-17.4 **Amendments & Severability:** Any amendment to this Agreement must be in writing and signed by authorized representatives of both Parties. If any provision is held invalid or unenforceable under Nigerian law, the remaining provisions shall continue in full force and effect.
-
----
-
-## IN WITNESS WHEREOF
-
-The Parties have executed this Agreement in the manner below the day and year first above written.
-
-### SIGNED FOR AND ON BEHALF OF APEXLABS GLOBAL RESOURCES LIMITED (DEVELOPER):
-
-**Company Name:** APEXLABS GLOBAL RESOURCES LIMITED (RC: 9341285)  
-**Authorized Signatory Name:** ADELEKE ADEBAYO MUJEEB  
-**Designation:** Director / Managing Director  
-**Signature:** ___________________________________________  
-**Date:** ___________________________________________  
-
-**In the presence of (Witness for Developer):**  
-**Name:** ___________________________________________  
-**Address:** ___________________________________________  
-**Occupation:** ___________________________________________  
-**Signature & Date:** ___________________________________________  
-
----
-
-### SIGNED FOR AND ON BEHALF OF THE CLIENT (PHARMACY):
-
-**Pharmacy Registered Name:** ___________________________________________  
-**Authorized Signatory Name:** ___________________________________________  
-**Designation (e.g., Managing Director / Superintendent Pharmacist):** ___________________________________  
-**Signature:** ___________________________________________  
-**Date & Company Stamp:** ___________________________________________  
-
-**In the presence of (Witness for Pharmacy):**  
-**Name:** ___________________________________________  
-**Address:** ___________________________________________  
-**Occupation:** ___________________________________________  
-**Signature & Date:** ___________________________________________  
-
----
----
-
-## SCHEDULE 1: AUTHORIZED PHARMACY BRANCHES (5 BRANCHES)
-
-The License and the flat **₦20,000/month** subscription cover the following **five (5) Authorized Branches** of the Client:
-
-| Branch # | Branch Name / Identifier | Full Physical Address | Branch Manager / Contact Phone | Max POS / Admin Devices Covered |
-| :--- | :--- | :--- | :--- | :--- |
-| **Branch 1 (Head Office / Main)** | [Insert Branch 1 Name] | [Insert Address] | [Insert Name & Phone] | [e.g., Up to 3 PCs] |
-| **Branch 2** | [Insert Branch 2 Name] | [Insert Address] | [Insert Name & Phone] | [e.g., Up to 2 PCs] |
-| **Branch 3** | [Insert Branch 3 Name] | [Insert Address] | [Insert Name & Phone] | [e.g., Up to 2 PCs] |
-| **Branch 4** | [Insert Branch 4 Name] | [Insert Address] | [Insert Name & Phone] | [e.g., Up to 2 PCs] |
-| **Branch 5** | [Insert Branch 5 Name] | [Insert Address] | [Insert Name & Phone] | [e.g., Up to 2 PCs] |
-
----
-
-## SCHEDULE 2: COMMERCIAL & PAYMENT SCHEDULE
-
-### 1. Summary of Fees
-
-| Fee Item | Amount (NGN) | Billing Frequency | When Payable / Description |
-| :--- | :--- | :--- | :--- |
-| **2-Month Trial Period** | **₦0.00** (Free of monthly subscription) | Two (2) Months | Commences on **[Insert Trial Start Date]** and ends on **[Insert Trial End Date]**. |
-| **Initial Production Deployment Fee** | **₦500,000.00** *(Five Hundred Thousand Naira)* | **One-Time Fee** | One-time fee for full production setup, configuration, data import, and deployment across all 5 Authorized Branches. |
-| **Monthly Subscription Fee (All 5 Branches Flat)** | **₦20,000.00 / month** *(Twenty Thousand Naira)* | **Monthly (or ₦240,000 Annually)** | Payable in advance on the **[1st]** of each month after the 2-Month Trial Period. Flat rate covering all 5 Authorized Branches combined. |
-| **Additional Branch Expansion Fee** *(Optional — only if Branch 6+ is added later)* | **₦[75,000.00]** one-time setup + **₦[5,000.00]/month** per extra branch | Per additional branch beyond the initial 5 | Applies only if the Client opens a 6th or subsequent branch and requests Software deployment there. |
-| **Extra Workstation Re-Installation** *(Beyond 2 free OS re-installs/year)* | **₦[15,000.00]** per device | As incurred | Only applies if a branch formats/replaces a PC after initial deployment and exceeds the annual free re-installation allowance. |
-
-### 2. Developer Corporate Details & Designated Bank Account
-
-- **Company Name:** APEXLABS GLOBAL RESOURCES LIMITED
-- **RC Number:** 9341285 | **TIN:** 2622485340557
-- **Office Address:** 33, Nurrudeen Street, Olayemi Bustop, Ayobo, Lagos State, Nigeria
-- **Telephone / WhatsApp:** 09032459336, 09033506394
-- **Official Email:** apexlabsglobal@gmail.com
-- **Bank Name:** `[Insert Corporate Bank Name]`
-- **Account Name:** **APEXLABS GLOBAL RESOURCES LIMITED**
-- **Account Number:** `[Insert 10-Digit NUBAN Account Number]`
-
----
-
-## SCHEDULE 3: SCOPE OF INITIAL PRODUCTION DEPLOYMENT vs. MONTHLY SUBSCRIPTION
-
-### Part A: What the One-Time ₦500,000 Initial Production Deployment Fee Covers
-1. **Production Environment & Organization Setup:** Provisioning of the Pharmacy's isolated multi-tenant organization environment on the central server and database setup.
-2. **5-Branch Configuration:** Setup of all five (5) Authorized Branches, branch codes, stock locations, and synchronization channels.
-3. **Workstation & POS Installation:** Installation of the local Offline-First Desktop Application on the designated computers across the 5 branches.
-4. **Initial Inventory & Product Data Onboarding:** Formatting and importing the Pharmacy's initial master product list, drug categories, batch/expiry records (FEFO/FIFO), unit prices, and opening stock balances (supplied by the Pharmacy in Excel/CSV).
-5. **User Accounts, Roles & Audit Configuration:** Setup of staff logins, role permissions (Cashier, Pharmacist, Storekeeper, Manager, Admin), and activation of the system-wide Audit Trail & Inventory Ledger.
-6. **Receipt Printer & Barcode Scanner Setup:** Configuring thermal receipt templates (with Pharmacy name, address, phone, and footer policy) and linking compatible USB/LAN thermal printers and barcode scanners.
-7. **Staff & Management Training:** Initial onboarding training for cashiers (POS billing, offline indicator awareness), storekeepers/pharmacists (inventory, expiry tracking, stock counts), and management (dashboard, branch synchronization monitoring, audit log review).
-
-### Part B: What the ₦20,000/Month Subscription Covers
-1. Active commercial software license for all five (5) Authorized Branches.
-2. Cloud server hosting and maintenance for the central synchronization engine.
-3. Continuous synchronization of branch sales, inventory adjustments, pricing updates, and audit logs whenever branches are connected to the internet.
-4. Routine software maintenance, bug fixes, security updates, and minor stability releases.
-5. Remote technical support via phone, WhatsApp, and remote desktop during Support Hours.
-6. Automated cloud backups of all synchronized central data.
-
-### Part C: What is Excluded (Billed Separately Only If Requested)
-1. Custom software development or major new modules requested specifically by the Pharmacy.
-2. Physical computer hardware, receipt printers, barcode scanners, UPS batteries, networking cables, or routers.
-3. Internet data subscriptions (MTN, Airtel, Starlink, Fiber, etc.) at the branches.
-4. Third-party consumption costs (e.g., bulk SMS alerts to customers, WhatsApp API fees).
-5. Physical on-site visits outside the agreed initial deployment/training window where the issue is hardware/network-related or solvable remotely.
-
----
-
-## SCHEDULE 4: SUPPORT SERVICE LEVELS (SLA) & MINIMUM HARDWARE REQUIREMENTS
-
-### 1. Support Hours & Channels
-- **Standard Support Hours:** Monday to Saturday, **8:00 AM – 6:00 PM (West Africa Time / WAT)**.
-- **Emergency Support (Critical POS/Sync Outage):** Available via emergency phone/WhatsApp line.
-- **Support Channels:**
-  - **Phone / WhatsApp:** 09032459336, 09033506394
-  - **Email:** apexlabsglobal@gmail.com
-  - **Remote Support Tool:** AnyDesk / RustDesk / TeamViewer
-
-### 2. Target Response Times
-| Severity Level | Definition | Target Initial Response |
+| Fee Component | Amount (NGN) | Scope & Payment Terms |
 | :--- | :--- | :--- |
-| **Level 1 — Critical** | Software cannot process sales at one or more branches, or critical data corruption. | Within **1 – 2 hours** during Support Hours |
-| **Level 2 — High** | Central cloud synchronization failing even when branch internet is verified working, or key reporting module unavailable. | Within **4 hours** during Support Hours |
-| **Level 3 — Normal** | General "how-to" questions, minor UI bugs, printer alignment issues, or user account assistance. | Within **1 business day (24 hours)** |
+| **2-Month Trial Period** | **₦0.00 / month** *(Subscription waived)* | **2 Calendar Months** (`[Start Date]` to `[End Date]`) to evaluate POS billing, inventory/expiry tracking, staff accounts, audit logs, and offline sync. |
+| **Initial Production Deployment Fee** | **₦500,000.00** *(One-Time Fee)* | Covers cloud setup, 5-branch configuration, PC installation, initial product/inventory import (Excel/CSV), staff role setup, thermal printer/scanner setup, and initial staff training. **Non-refundable** once deployed. |
+| **Monthly Subscription Fee (All 5 Branches Flat)** | **₦20,000.00 / month** *(or ₦240,000/year)* | Commences on `[Subscription Start Date]` after the 2-month trial. Covers the 5-branch software license, central cloud sync server, automated cloud backups, bug fixes/updates, and remote support. |
 
-### 3. Minimum Recommended Hardware at Each Branch (Client Responsibility)
-- **Computer / POS Terminal:** Windows 10 or Windows 11 (64-bit), Intel Core i3 (or equivalent) or higher, minimum **8 GB RAM**, minimum **128 GB SSD** (Solid State Drive strongly recommended for local SQLite database speed and durability).
-- **Power Protection:** Working **UPS (Uninterruptible Power Supply)** connected to every POS desktop computer to prevent sudden power-cut database corruption.
-- **Peripherals:** 80mm or 58mm USB/LAN Thermal Receipt Printer; USB 1D/2D Barcode Scanner.
-- **Internet Connectivity:** Reliable 4G/5G MiFi/Router or Fiber connection capable of connecting at least daily to push/pull synchronization updates.
+3.1 **Exclusions from Monthly Fee:** The flat **₦20,000/month** subscription covers all 5 Authorized Branches combined, but **excludes**: (a) bespoke/custom new features requested specifically by the Pharmacy (quoted separately); (b) physical hardware (PCs, receipt printers, scanners, routers, UPS); (c) branch internet data/ISP plans; (d) third-party SMS/WhatsApp API charges; and (e) physical on-site visits outside initial onboarding for issues solvable remotely.  
+3.2 **Payment & Late Payment:** Monthly subscriptions are payable in advance on or before the **5th day of each month** into Apexlabs' corporate account (**Bank:** `[Insert Bank]` | **Account Name:** `APEXLABS GLOBAL RESOURCES LIMITED` | **Account No:** `[Insert NUBAN]`). If payment remains overdue for more than **14 days** after written reminder, Apexlabs may suspend central cloud synchronization, support, and license renewal until arrears are settled. Subscription rates are fixed for the first 12 months and may be reviewed annually thereafter with at least 30 days' written notice.
+
+## 4. OFFLINE-FIRST OPERATION, HARDWARE & BACKUPS
+4.1 **Offline-First Synchronization:** Each branch desktop app operates locally (SQLite) when internet is unavailable—recording sales, printing receipts, updating local stock, and logging actions—and automatically synchronizes with the central server once internet connectivity returns.  
+4.2 **Offline Conditions & Local Data Care:** The Pharmacy acknowledges that: (a) offline branch transactions will only appear at Head Office or other branches once that branch connects to the internet and syncs; (b) staff must not alter Windows system clocks; and (c) **unsynchronized offline records reside solely on the local branch PC** until synced. While Apexlabs maintains automated cloud backups of all **synchronized** data, Apexlabs is not liable for unsynchronized local transactions lost if a branch stays offline and its PC hard drive crashes, is formatted, or is stolen before syncing. Each branch must connect to the internet to sync **at least once daily**.  
+4.3 **Hardware Responsibility:** The Pharmacy is responsible for maintaining compatible branch PCs (Windows 10/11, 8GB RAM, SSD recommended), working UPS power backup, thermal printers, barcode scanners, and internet data. Apexlabs provides up to two (2) free remote software re-installations per year if a branch replaces or formats a PC.
+
+## 5. CONFIDENTIALITY, STAFF SECURITY & AUDIT LOGS
+5.1 **Confidentiality & Data Protection (NDPA 2023):** Apexlabs shall treat all Pharmacy sales, pricing, inventory, and financial data as strictly confidential, shall never disclose or sell Client Data to any third party or competitor, and shall process data strictly to provide and support the Software in compliance with the **Nigeria Data Protection Act (NDPA) 2023**.  
+5.2 **Staff Accounts & Audit Trail:** The Pharmacy is solely responsible for assigning staff roles, enforcing password secrecy, and immediately deactivating accounts of former staff. All actions taken under valid staff credentials are deemed authorized by the Pharmacy. The Software maintains an immutable **Audit Trail & Inventory Ledger** (recording logins, sales, voids, stock adjustments, and price edits), which the Pharmacy may freely inspect and export for internal auditing and investigations.
+
+## 6. REGULATORY DISCLAIMER & LIMITATION OF LIABILITY
+6.1 **Regulatory Disclaimer:** The Software is a commercial POS and inventory management tool and does not replace a licensed Pharmacist's clinical judgment. The Pharmacy remains solely responsible for complying with all **PCN, NAFDAC, NDLEA**, and tax regulations.  
+6.2 **Limitation of Liability:** Neither Party shall be liable for indirect or consequential losses, lost profits, employee theft, or stock shrinkage. Apexlabs' maximum aggregate liability under this Agreement shall not exceed the total Monthly Subscription Fees paid by the Pharmacy in the **six (6) months** preceding the claim.
+
+## 7. TERMINATION, DATA EXPORT & GOVERNING LAW
+7.1 **Termination:** If the Pharmacy elects not to proceed at the end of the 2-Month Trial Period, it may terminate by written notice prior to trial expiration without further fee liability. Thereafter, either Party may terminate this Agreement upon **30 days' written notice** (or **14 days' written notice** for uncured material breach or non-payment exceeding 30 days).  
+7.2 **Mandatory Data Export:** Upon termination for any reason (subject to settlement of any undisputed accrued fees), all software licenses cease and Apexlabs shall, within **14 days**, provide the Pharmacy with a complete export of all synchronized **Client Data** (products, stock balances, sales history, and audit logs) in standard **Microsoft Excel (`.xlsx` / `.csv`)** format.  
+7.3 **Governing Law & Disputes:** This Agreement constitutes the entire agreement between the Parties and is governed by the laws of the **Federal Republic of Nigeria**. Any dispute not resolved amicably within 14 days shall be referred to mediation at the **Lagos Multi-Door Courthouse (LMDC)** under the **Arbitration and Mediation Act 2023**, failing which the courts of **Lagos State** shall have jurisdiction.
+
+---
+
+## SCHEDULE OF 5 AUTHORIZED BRANCHES
+
+| Branch # | Branch Name | Physical Address | Branch Contact / Phone | Devices Covered |
+| :--- | :--- | :--- | :--- | :--- |
+| **1 (Main/HQ)** | [Insert Branch 1] | [Insert Address] | [Insert Name & Phone] | [Up to 3 PCs] |
+| **2** | [Insert Branch 2] | [Insert Address] | [Insert Name & Phone] | [Up to 2 PCs] |
+| **3** | [Insert Branch 3] | [Insert Address] | [Insert Name & Phone] | [Up to 2 PCs] |
+| **4** | [Insert Branch 4] | [Insert Address] | [Insert Name & Phone] | [Up to 2 PCs] |
+| **5** | [Insert Branch 5] | [Insert Address] | [Insert Name & Phone] | [Up to 2 PCs] |
+
+---
+
+## IN WITNESS WHEREOF, the Parties have executed this Agreement on the Effective Date above:
+
+| SIGNED FOR APEXLABS GLOBAL RESOURCES LIMITED (DEVELOPER) | SIGNED FOR THE CLIENT (PHARMACY) |
+| :--- | :--- |
+| **Authorized Signatory:** ADELEKE ADEBAYO MUJEEB | **Pharmacy Name:** ___________________________________ |
+| **Title:** Director / Managing Director | **Authorized Signatory:** ______________________________ |
+| **Signature:** ___________________________________ | **Title:** _____________________________________________ |
+| **Date:** ________________________________________ | **Signature & Stamp:** _________________________________ |
+| **Witness Name:** ________________________________ | **Date:** ______________________________________________ |
+| **Witness Signature & Date:** _____________________ | **Witness Name & Signature:** __________________________ |
