@@ -719,19 +719,13 @@ namespace PharmaCareSetup
             lblServerTestStatus.Text = "⏳ Testing connection to " + url + " ...";
             Application.DoEvents();
 
+            string checkUrl = url.EndsWith("/api/v1") ? (url + "/health/") : (url + "/api/v1/health/");
             try
             {
-                // Enable TLS 1.2 (3072) and TLS 1.3 (12288) on .NET Framework 4.x for modern HTTPS cloud servers (Railway/Cloudflare)
-                try
-                {
-                    ServicePointManager.SecurityProtocol = (SecurityProtocolType)12288 | (SecurityProtocolType)3072 | (SecurityProtocolType)768 | SecurityProtocolType.Tls;
-                }
-                catch
-                {
-                    ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072 | (SecurityProtocolType)768 | SecurityProtocolType.Tls;
-                }
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072 | (SecurityProtocolType)768 | SecurityProtocolType.Tls;
+                ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
-                string checkUrl = url.EndsWith("/api/v1") ? (url + "/health/") : (url + "/api/v1/health/");
                 HttpWebRequest req = (HttpWebRequest)WebRequest.Create(checkUrl);
                 req.Timeout = 10000;
                 req.Method = "GET";
@@ -740,10 +734,36 @@ namespace PharmaCareSetup
                 {
                     lblServerTestStatus.ForeColor = Color.FromArgb(5, 150, 105);
                     lblServerTestStatus.Text = "✅ Connected! Cloud Server responded with HTTP " + (int)resp.StatusCode + ".";
+                    return;
                 }
             }
             catch (Exception ex)
             {
+                // Fallback to built-in Windows curl.exe if .NET Schannel fails on a fresh Windows profile
+                try
+                {
+                    ProcessStartInfo psi = new ProcessStartInfo
+                    {
+                        FileName = "curl.exe",
+                        Arguments = "-s -k -L -o NUL -w \"%{http_code}\" --max-time 8 \"" + checkUrl + "\"",
+                        CreateNoWindow = true,
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true
+                    };
+                    using (Process p = Process.Start(psi))
+                    {
+                        string codeOut = p.StandardOutput.ReadToEnd().Trim();
+                        p.WaitForExit(9000);
+                        if (codeOut == "200")
+                        {
+                            lblServerTestStatus.ForeColor = Color.FromArgb(5, 150, 105);
+                            lblServerTestStatus.Text = "✅ Connected! Cloud Server responded with HTTP 200.";
+                            return;
+                        }
+                    }
+                }
+                catch { }
+
                 lblServerTestStatus.ForeColor = Color.FromArgb(217, 119, 6);
                 lblServerTestStatus.Text = "⚠️ Server not reachable right now (" + ex.Message + "). URL will still be saved for background sync.";
             }
