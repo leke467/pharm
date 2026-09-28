@@ -636,7 +636,7 @@ namespace PharmaCareSetup
 
             txtServerUrl = new TextBox
             {
-                Text = "http://localhost:8000",
+                Text = "https://pharm-production-69a4.up.railway.app",
                 Location = new Point(0, 158),
                 Size = new Size(465, 28),
                 Font = new Font("Segoe UI", 10f),
@@ -721,10 +721,21 @@ namespace PharmaCareSetup
 
             try
             {
+                // Enable TLS 1.2 (3072) and TLS 1.3 (12288) on .NET Framework 4.x for modern HTTPS cloud servers (Railway/Cloudflare)
+                try
+                {
+                    ServicePointManager.SecurityProtocol = (SecurityProtocolType)12288 | (SecurityProtocolType)3072 | (SecurityProtocolType)768 | SecurityProtocolType.Tls;
+                }
+                catch
+                {
+                    ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072 | (SecurityProtocolType)768 | SecurityProtocolType.Tls;
+                }
+
                 string checkUrl = url.EndsWith("/api/v1") ? (url + "/health/") : (url + "/api/v1/health/");
                 HttpWebRequest req = (HttpWebRequest)WebRequest.Create(checkUrl);
-                req.Timeout = 4000;
+                req.Timeout = 10000;
                 req.Method = "GET";
+                req.UserAgent = "PharmaCarePro-SetupWizard/1.0";
                 using (HttpWebResponse resp = (HttpWebResponse)req.GetResponse())
                 {
                     lblServerTestStatus.ForeColor = Color.FromArgb(5, 150, 105);
