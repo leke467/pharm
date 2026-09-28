@@ -28,21 +28,18 @@ def main():
             from bootstrap_railway import bootstrap
             bootstrap()
             port = os.environ.get('PORT', '8000')
-            os.execvp(
+            gunicorn_args = [
                 'gunicorn',
-                [
-                    'gunicorn',
-                    'config.wsgi:application',
-                    '--bind',
-                    f'0.0.0.0:{port}',
-                    '--workers',
-                    '3',
-                    '--threads',
-                    '2',
-                    '--timeout',
-                    '120',
-                ],
-            )
+                'config.wsgi:application',
+                '--bind',
+                '0.0.0.0:8000',
+                '--bind',
+                '0.0.0.0:8080',
+            ]
+            if port not in ('8000', '8080'):
+                gunicorn_args.extend(['--bind', f'0.0.0.0:{port}'])
+            gunicorn_args.extend(['--workers', '3', '--threads', '2', '--timeout', '120'])
+            os.execvp('gunicorn', gunicorn_args)
 
     execute_from_command_line(sys.argv)
 
