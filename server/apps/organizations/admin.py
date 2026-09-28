@@ -1,6 +1,7 @@
 from django.contrib import admin
 from apps.licensing.models import Subscription
 from apps.licensing.monnify_service import MonnifyService
+from apps.users.services import seed_permissions_and_roles
 from .models import Organization
 
 
@@ -30,9 +31,16 @@ class OrganizationAdmin(admin.ModelAdmin):
     search_fields = ('name', 'code', 'email', 'phone')
     list_filter = ('is_active',)
 
-    def save_model(self, request, obj, form, change):
-        super().save_model(request, obj, form, change)
-        MonnifyService.get_or_create_subscription(obj)
+    def save_related(self, request, form, formsets, change):
+        super().save_related(request, form, formsets, change)
+        org = form.instance
+        sub = MonnifyService.get_or_create_subscription(org)
+        if sub and not sub.monnify_account_number:
+            MonnifyService().ensure_reserved_account(sub)
+        try:
+            seed_permissions_and_roles(org)
+        except Exception:
+            pass
 
     @admin.display(description='Subscription Status')
     def subscription_summary(self, obj: Organization):
