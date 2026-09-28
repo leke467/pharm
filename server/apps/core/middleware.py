@@ -32,4 +32,5 @@ class OrganizationScopeMiddleware:
             request.organization_id = None
 
         response = self.get_response(request)
+        response.setdefault('Permissions-Policy', 'unload=(self)')
         return response
