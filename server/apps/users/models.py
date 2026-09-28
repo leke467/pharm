@@ -8,7 +8,13 @@ from .managers import UserManager
 
 class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='users')
+    organization = models.ForeignKey(
+        Organization,
+        on_delete=models.CASCADE,
+        related_name='users',
+        null=True,
+        blank=True,
+    )
     username = models.CharField(max_length=150)
     email = models.EmailField(blank=True)
     full_name = models.CharField(max_length=255)
@@ -24,14 +30,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['organization_id']
+    REQUIRED_FIELDS = []
 
     class Meta:
         unique_together = [('organization', 'username')]
         ordering = ['-created_at']
 
     def __str__(self):
-        return f"{self.username} @ {self.organization.code}"
+        if self.organization_id and self.organization:
+            return f"{self.username} @ {self.organization.code}"
+        return f"{self.username} (Superuser)"
 
 class Role(BaseModel):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='roles')

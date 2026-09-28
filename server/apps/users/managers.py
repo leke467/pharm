@@ -15,9 +15,13 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, username, password, **extra_fields):
-        # For django admin, we might need a default org or handle it specially
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        from apps.organizations.models import Organization
-        org, _ = Organization.objects.get_or_create(code='system', defaults={'name': 'System'})
-        return self.create_user(username, org.id, password, **extra_fields)
+        organization_id = extra_fields.pop('organization_id', None)
+        user = self.model(username=username, organization_id=organization_id, **extra_fields)
+        if password:
+            user.set_password(password)
+        else:
+            user.set_unusable_password()
+        user.save(using=self._db)
+        return user
