@@ -24,8 +24,9 @@ RUN pip install --no-cache-dir -r /app/server/requirements.txt
 COPY server/ /app/server/
 COPY shared/ /app/shared/
 
-RUN python manage.py collectstatic --noinput
+RUN sed -i 's/\r$//' /app/server/entrypoint.sh && chmod +x /app/server/entrypoint.sh && python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "python manage.py migrate --noinput && python bootstrap_railway.py && gunicorn config.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 3 --threads 2 --timeout 120"]
+ENTRYPOINT ["/bin/sh", "/app/server/entrypoint.sh"]
+CMD ["gunicorn"]
