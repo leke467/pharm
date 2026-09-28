@@ -90,7 +90,7 @@ def bootstrap():
     seed_permissions_and_roles(org)
     admin_role = Role.objects.filter(organization=org, name="Organization Admin").first()
 
-    # Admin user (preserving exact UUID and password hash)
+    # Admin user (superuser with password admin123!)
     admin_id = "9d862f6d-b42e-4405-b2ea-48851ee26879"
     admin_user = User.objects.filter(id=admin_id).first() or User.objects.filter(organization=org, username="admin").first()
     if not admin_user:
@@ -103,16 +103,21 @@ def bootstrap():
             is_org_admin=True,
             is_staff=True,
             is_superuser=True,
+            is_active=True,
             default_branch=main_branch,
-            password="pbkdf2_sha256$870000$ApJxIRRLASWP1vO8Ntk5TH$oMRSBop9TRhzVc42CHDxzuKNlgUKDfNKbAhvkIWlmDA=",
         )
+        admin_user.set_password("admin123!")
         admin_user.save()
-        print("[Bootstrap] Created Admin Superuser: admin")
+        print("[Bootstrap] Created Admin Superuser: admin (password: admin123!)")
     else:
-        if not admin_user.is_staff or not admin_user.is_superuser:
-            admin_user.is_staff = True
-            admin_user.is_superuser = True
-            admin_user.save(update_fields=["is_staff", "is_superuser"])
+        admin_user.is_org_admin = True
+        admin_user.is_staff = True
+        admin_user.is_superuser = True
+        admin_user.is_active = True
+        if not admin_user.check_password("admin123!"):
+            admin_user.set_password("admin123!")
+        admin_user.save()
+        print("[Bootstrap] Verified Admin Superuser: admin (password: admin123!)")
 
     if admin_role:
         UserRole.objects.get_or_create(user=admin_user, role=admin_role, branch=None)
