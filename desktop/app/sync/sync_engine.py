@@ -65,7 +65,7 @@ class SyncEngine:
     def get_pending_count(self, branch_id: str | None = None) -> int:
         with self.db_manager.get_session() as db:
             q = db.query(SyncEvent).filter(
-                SyncEvent.status.in_(["PENDING", "FAILED"]),
+                SyncEvent.status.in_(["PENDING", "FAILED", "SENDING"]),
                 SyncEvent.retry_count < SyncEvent.max_retries,
             )
             if branch_id:
@@ -84,7 +84,7 @@ class SyncEngine:
         """
         with self.db_manager.get_session() as db:
             q = db.query(SyncEvent).filter(
-                SyncEvent.status.in_(["PENDING", "FAILED"]),
+                SyncEvent.status.in_(["PENDING", "FAILED", "SENDING"]),
                 SyncEvent.retry_count < SyncEvent.max_retries,
             )
             if branch_id:
@@ -161,8 +161,8 @@ class SyncEngine:
                     "events": batch,
                 },
             )
-        except NetworkError as exc:
-            # Architecture Decision §4.3 & §4.7: On timeout/network failure, return events to PENDING
+        except Exception as exc:
+            # Architecture Decision §4.3 & §4.7: On timeout/network failure or server error, return events to PENDING
             # (unless max_retries reached) and rely on server ProcessedEvent idempotency.
             with self.db_manager.get_session() as db:
                 events = db.query(SyncEvent).filter(SyncEvent.id.in_(batch_ids)).all()

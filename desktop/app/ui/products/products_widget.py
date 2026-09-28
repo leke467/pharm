@@ -15,6 +15,7 @@ from PySide6.QtWidgets import (
     QDialog,
     QMessageBox,
     QFormLayout,
+    QInputDialog,
 )
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QColor
@@ -106,12 +107,18 @@ def create_price_cell_widget(parent, product_name: str, price_text: str, update_
 class CreateProductDialog(QDialog):
     """Clean popup modal dialog to register a new product with selling price."""
 
-    def __init__(self, parent, product_service, pricing_service, session, categories):
+    def __init__(self, parent, product_service, pricing_service, session, categories=None):
         super().__init__(parent)
         self.product_service = product_service
         self.pricing_service = pricing_service
         self.session = session
-        self.categories = categories
+        self.categories = list(categories) if categories else []
+
+        if not self.categories and self.product_service and getattr(self.session, "organization_id", None):
+            try:
+                self.categories = self.product_service.list_categories(self.session.organization_id)
+            except Exception:
+                self.categories = []
 
         self.setWindowTitle("Add New Product")
         self.setMinimumWidth(500)
@@ -157,11 +164,31 @@ class CreateProductDialog(QDialog):
         self.brand_input.setPlaceholderText("e.g. Emzor / GSK (optional)")
         form.addRow("Brand Manufacturer:", self.brand_input)
 
+        cat_row = QHBoxLayout()
+        cat_row.setSpacing(6)
         self.category_combo = QComboBox()
-        self.category_combo.addItem("Select Category...", None)
-        for cat in self.categories:
+        self.category_combo.addItem("General / Uncategorized", None)
+        selected_idx = 0
+        for idx, cat in enumerate(self.categories, start=1):
             self.category_combo.addItem(cat.name, cat.id)
-        form.addRow("Dosage Category:", self.category_combo)
+            if cat.name.lower().startswith("analgesic") or cat.name.lower().startswith("general"):
+                selected_idx = idx
+
+        if self.category_combo.count() > 1:
+            self.category_combo.setCurrentIndex(selected_idx if selected_idx > 0 else 1)
+
+        cat_row.addWidget(self.category_combo, stretch=1)
+
+        quick_add_cat_btn = QPushButton("+ New")
+        quick_add_cat_btn.setToolTip("Quickly create a new dosage category")
+        quick_add_cat_btn.setStyleSheet(
+            "background-color: #F1F5F9; color: #1E293B; border: 1px solid #CBD5E1; "
+            "padding: 5px 12px; border-radius: 4px; font-weight: 600;"
+        )
+        quick_add_cat_btn.clicked.connect(self._quick_add_category)
+        cat_row.addWidget(quick_add_cat_btn)
+
+        form.addRow("Dosage Category:", cat_row)
 
         self.price_input = QLineEdit()
         self.price_input.setPlaceholderText("e.g. 500.00")
@@ -197,6 +224,21 @@ class CreateProductDialog(QDialog):
 
         body_layout.addLayout(btn_row)
         layout.addWidget(body)
+
+    def _quick_add_category(self):
+        new_name, ok = QInputDialog.getText(
+            self,
+            "Add Dosage Category",
+            "Enter new dosage or formulation category name:",
+        )
+        if ok and new_name.strip():
+            cat_name = new_name.strip()
+            try:
+                cat = self.product_service.create_category(self.session, name=cat_name)
+                self.category_combo.addItem(cat.name, cat.id)
+                self.category_combo.setCurrentIndex(self.category_combo.count() - 1)
+            except Exception as e:
+                self.error_lbl.setText(f"Error creating category: {str(e)}")
 
     def _on_save(self):
         sku = self.sku_input.text().strip()
@@ -427,7 +469,13 @@ class EditProductDialog(QDialog):
         self.pricing_service = pricing_service
         self.session = session
         self.product = product
-        self.categories = categories
+        self.categories = list(categories) if categories else []
+
+        if not self.categories and self.product_service and getattr(self.session, "organization_id", None):
+            try:
+                self.categories = self.product_service.list_categories(self.session.organization_id)
+            except Exception:
+                self.categories = []
 
         self.setWindowTitle(f"Edit Product & Selling Price — {self.product.name}")
         self.setMinimumWidth(520)

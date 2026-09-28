@@ -24,6 +24,35 @@ class SubscriptionInline(admin.StackedInline):
     )
 
 
+DEFAULT_CATEGORIES = [
+    "Analgesics & Antipyretics",
+    "Antibiotics & Antifungals",
+    "Antimalarials",
+    "Cardiovascular",
+    "Central Nervous System",
+    "Dermatological",
+    "Diabetes & Endocrine",
+    "Gastrointestinal",
+    "Medical Supplies",
+    "Ophthalmic & ENT",
+    "Respiratory & Allergy",
+    "Vitamins & Supplements",
+    "General / Uncategorized",
+]
+
+
+def seed_default_categories(org: Organization):
+    import uuid
+    from apps.products.models import Category
+    for cat_name in DEFAULT_CATEGORIES:
+        cat_id = uuid.uuid5(uuid.NAMESPACE_DNS, f"{org.id}:category:{cat_name}")
+        Category.objects.get_or_create(
+            organization=org,
+            name=cat_name,
+            defaults={'id': cat_id, 'is_active': True},
+        )
+
+
 @admin.register(Organization)
 class OrganizationAdmin(admin.ModelAdmin):
     inlines = [SubscriptionInline]
@@ -39,6 +68,10 @@ class OrganizationAdmin(admin.ModelAdmin):
             MonnifyService().ensure_reserved_account(sub)
         try:
             seed_permissions_and_roles(org)
+        except Exception:
+            pass
+        try:
+            seed_default_categories(org)
         except Exception:
             pass
 

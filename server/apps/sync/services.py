@@ -310,6 +310,22 @@ def apply_single_sync_event(
 
     elif entity_type == 'product':
         cat_id = payload.get('category_id') or payload.get('category')
+        if cat_id:
+            cat_obj = Category.objects.filter(id=cat_id, organization_id=org_id).first()
+            if not cat_obj:
+                cat_name = payload.get('category_name') or 'General / Uncategorized'
+                cat_obj, _ = Category.objects.get_or_create(
+                    id=cat_id,
+                    defaults={'organization_id': org_id, 'name': cat_name, 'is_active': True},
+                )
+        else:
+            cat_obj, _ = Category.objects.get_or_create(
+                organization_id=org_id,
+                name='General / Uncategorized',
+                defaults={'is_active': True},
+            )
+            cat_id = cat_obj.id
+
         pt_id = payload.get('product_type_id') or payload.get('product_type')
         mfg_id = payload.get('manufacturer_id') or payload.get('manufacturer')
         defaults = {

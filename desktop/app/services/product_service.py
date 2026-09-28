@@ -18,6 +18,23 @@ from shared.enums import PermissionCode, AuditAction, SyncOperation, SYNC_DEPEND
 from desktop.app.db.models import SyncEvent
 
 
+DEFAULT_CATEGORIES = [
+    "Analgesics & Antipyretics",
+    "Antibiotics & Antifungals",
+    "Antimalarials",
+    "Cardiovascular",
+    "Central Nervous System",
+    "Dermatological",
+    "Diabetes & Endocrine",
+    "Gastrointestinal",
+    "Medical Supplies",
+    "Ophthalmic & ENT",
+    "Respiratory & Allergy",
+    "Vitamins & Supplements",
+    "General / Uncategorized",
+]
+
+
 class ProductService(BaseService):
     """
     Service managing the Product Catalog, Categories, ProductTypes, Manufacturers,
@@ -72,12 +89,66 @@ class ProductService(BaseService):
             )
             return category
 
+    def ensure_default_categories(self, organization_id: str, user_session=None) -> list[Category]:
+        """Auto-seeds standard pharmaceutical dosage categories for an organization using deterministic UUIDs."""
+        if not organization_id:
+            return []
+        with self.transaction() as db:
+            existing = {
+                c.name.strip().lower(): c
+                for c in db.query(Category).filter_by(organization_id=organization_id).all()
+            }
+            created_any = False
+            for cat_name in DEFAULT_CATEGORIES:
+                if cat_name.lower() not in existing:
+                    cat_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, f"{organization_id}:category:{cat_name}"))
+                    cat = Category(
+                        id=cat_id,
+                        organization_id=organization_id,
+                        name=cat_name,
+                        parent_id=None,
+                        is_active=True,
+                    )
+                    db.add(cat)
+                    created_any = True
+                    if user_session:
+                        try:
+                            payload = {
+                                "id": cat.id,
+                                "organization_id": cat.organization_id,
+                                "name": cat.name,
+                                "parent_id": None,
+                                "is_active": True,
+                            }
+                            self.record_audit_and_sync(
+                                db_session=db,
+                                user_session=user_session,
+                                action=AuditAction.PRODUCT_CREATED.value,
+                                entity_type="category",
+                                entity_id=cat.id,
+                                operation=SyncOperation.CREATE.value,
+                                payload=payload,
+                            )
+                        except Exception:
+                            pass
+            if created_any:
+                db.flush()
+            return (
+                db.query(Category)
+                .filter_by(organization_id=organization_id, is_active=True)
+                .order_by(Category.name.asc())
+                .all()
+            )
+
     def list_categories(self, organization_id: str, active_only: bool = True) -> list[Category]:
         with self.transaction() as db:
             q = db.query(Category).filter_by(organization_id=organization_id)
             if active_only:
                 q = q.filter_by(is_active=True)
-            return q.order_by(Category.name.asc()).all()
+            results = q.order_by(Category.name.asc()).all()
+            if not results and organization_id:
+                return self.ensure_default_categories(organization_id)
+            return results
 
     def create_product_type(
         self,
@@ -245,7 +316,7 @@ class ProductService(BaseService):
         user_session,
         sku: str,
         name: str,
-        category_id: str,
+        category_id: str | None = None,
         barcode: str | None = None,
         generic_name: str | None = None,
         brand_name: str | None = None,
@@ -257,8 +328,8 @@ class ProductService(BaseService):
         **pharmaceutical_kwargs,
     ) -> Product:
         self.require_permission(user_session, PermissionCode.PRODUCTS_CREATE.value)
-        if not sku or not name or not category_id:
-            raise ValidationError("SKU, product name, and category are required.")
+        if not sku or not name:
+            raise ValidationError("Product SKU and name are required.")
 
         with self.transaction() as db:
             existing_sku = (
@@ -269,13 +340,42 @@ class ProductService(BaseService):
             if existing_sku:
                 raise ValidationError(f"Product SKU '{sku}' already exists.")
 
-            cat = (
-                db.query(Category)
-                .filter_by(id=category_id, organization_id=user_session.organization_id)
-                .first()
-            )
+            cat = None
+            if category_id:
+                cat = (
+                    db.query(Category)
+                    .filter_by(id=category_id, organization_id=user_session.organization_id)
+                    .first()
+                )
+                if not cat:
+                    cat = (
+                        db.query(Category)
+                        .filter(
+                            Category.organization_id == user_session.organization_id,
+                            func.lower(Category.name) == str(category_id).strip().lower(),
+                        )
+                        .first()
+                    )
+
             if not cat:
-                raise ValidationError("Category not found in your organization.")
+                # Auto-seed standard categories if none exist
+                self.ensure_default_categories(user_session.organization_id, user_session)
+                cat = (
+                    db.query(Category)
+                    .filter_by(organization_id=user_session.organization_id, name="General / Uncategorized")
+                    .first()
+                )
+                if not cat:
+                    cat = (
+                        db.query(Category)
+                        .filter_by(organization_id=user_session.organization_id, is_active=True)
+                        .first()
+                    )
+
+            if not cat:
+                raise ValidationError("Failed to resolve or create a product category.")
+
+            category_id = cat.id
 
             corr_id = str(uuid.uuid4())
             product = Product(
