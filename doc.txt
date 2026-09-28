@@ -1,0 +1,4706 @@
+
+Yes. The general term I'd use in the application is Product or Pharmaceutical Product.
+That gives you flexibility because the pharmacy isn't only selling drugs. It may have:
+•	Medicines/drugs
+•	Creams
+•	Ointments
+•	Syrups
+•	Tablets/capsules
+•	Injections
+•	Medical devices
+•	Supplements
+•	Personal-care products
+•	Other pharmacy items
+So the system can have:
+Products → categories/types underneath it.
+ 
+1. Don't make the product form just "Name + Price + Quantity"
+For a pharmaceutical system, I'd make the product model considerably richer.
+When an authorized user selects Add Product, the form could be organized into sections.
+Basic information
+Product Name *
+Generic Name
+Brand Name
+Product Code / SKU
+Barcode
+Category *
+Product Type *
+Manufacturer
+Description
+For example:
+Product Name: Panadol Extra 500mg
+Generic Name: Paracetamol + Caffeine
+Brand Name: Panadol Extra
+Category: Analgesics
+Product Type: Tablet
+Manufacturer: GSK
+ 
+2. Pharmaceutical information
+Then a separate section:
+Pharmaceutical Information
+
+Active Ingredient(s)
+Strength
+Dosage Form
+Route of Administration
+Prescription Required?
+Controlled/Restricted?
+Indication
+Contraindications
+Precautions
+Drug Interactions
+Side Effects
+Storage Conditions
+You don't necessarily need to force staff to fill all of these.
+You could mark only genuinely essential fields with *.
+Everything else can be optional.
+ 
+3. Age/use information
+Your idea here is good, but I'd make it more structured than simply:
+"Who can use it?"
+For example:
+Age Restrictions
+
+Minimum Age: ______
+Maximum Age: ______
+
+Suitable for:
+☐ Infants
+☐ Children
+☐ Adolescents
+☐ Adults
+☐ Elderly
+
+Gender restriction:
+☐ None
+☐ Male
+☐ Female
+
+Pregnancy:
+☐ Unknown
+☐ Generally permitted
+☐ Caution
+☐ Not recommended
+However, I'd treat these as informational fields, not have the software automatically decide that a customer is medically safe to take a product. Clinical suitability should remain subject to the pharmacist/business's approved rules and information sources.
+ 
+4. Production and expiry
+This is particularly important.
+I'd actually separate Product from Batch.
+For example:
+PRODUCT
+
+Panadol Extra
+Generic: Paracetamol + Caffeine
+Manufacturer: GSK
+Then:
+BATCH
+
+Batch: PX29381
+Manufactured: 2026-02-10
+Expiry: 2028-02-10
+Quantity: 500
+Purchase Price: ₦800
+Selling Price: ₦1,200
+Branch: Ikeja
+Why?
+Because the same product can have multiple batches with different expiry dates.
+For example:
+Panadol Extra
+
+Batch A
+Expiry: Jan 2027
+Stock: 50
+
+Batch B
+Expiry: Aug 2027
+Stock: 200
+
+Batch C
+Expiry: Dec 2028
+Stock: 500
+You absolutely don't want to store only one expiry date on the product.
+ 
+5. Branch availability
+This is where your earlier requirement fits nicely.
+When creating a product:
+Sell this product at:
+
+☐ Ikeja
+☐ Lekki
+☐ Yaba
+☐ Surulere
+☐ Victoria Island
+
+[ Select All ]
+If the administrator selects:
+☑ Ikeja
+☑ Lekki
+☑ Yaba
+☑ Surulere
+☑ Victoria Island
+the product becomes available at all branches.
+If they select:
+☑ Ikeja
+it's only active at Ikeja.
+But don't duplicate the actual product record five times.
+Instead:
+                    PRODUCT
+                 Panadol Extra
+                       │
+        ┌──────────────┼──────────────┐
+        ↓              ↓              ↓
+     Branch 1       Branch 2       Branch 3
+     enabled        enabled        disabled
+        │              │
+      stock          stock
+This makes synchronization much cleaner.
+ 
+6. Inventory should be separate
+The product itself isn't the stock.
+Think:
+Product
+   │
+   ├── Branch 1
+   │     └── Inventory
+   │
+   ├── Branch 2
+   │     └── Inventory
+   │
+   ├── Branch 3
+   │     └── Inventory
+   │
+   ├── Branch 4
+   │     └── Inventory
+   │
+   └── Branch 5
+         └── Inventory
+So the same product could be:
+Panadol Extra
+
+Ikeja:       250
+Lekki:       120
+Yaba:          0
+Surulere:     80
+VI:          300
+ 
+7. Pricing should also be carefully designed
+Because you want centralized price changes.
+I'd separate:
+Product
+    ↓
+Pricing
+You can potentially support:
+Purchase Price
+Selling Price
+Wholesale Price
+Retail Price
+Promotional Price
+And record price history:
+PRICE HISTORY
+
+₦1,000
+↓
+Admin John
+Branch: Ikeja
+25 Sep 2026 10:32
+
+₦1,200
+↓
+Admin John
+Branch: Lekki
+27 Sep 2026 09:15
+
+₦1,300
+↓
+Admin Mary
+Branch: Yaba
+30 Sep 2026 14:20
+The exact pricing rules should be agreed with the pharmacy.
+ 
+8. Barcode support
+I'd definitely include:
+Barcode
+SKU
+Product Code
+because the POS can then work like a normal pharmacy/shop:
+Scan barcode
+     ↓
+Find product
+     ↓
+Add to cart
+     ↓
+Quantity
+     ↓
+Payment
+     ↓
+Receipt
+You don't want cashiers typing long drug names all day.
+ 
+9. Storage information
+Pharmaceutical products can have specific storage requirements.
+I'd allow:
+Storage Requirements
+
+Temperature:
+[________]
+
+Storage:
+☐ Room temperature
+☐ Refrigerated
+☐ Frozen
+☐ Protect from light
+☐ Keep dry
+☐ Other
+
+Special Instructions:
+[________________________]
+Again, optional fields unless the pharmacy decides otherwise.
+ 
+10. Documents
+I'd also consider allowing attachments.
+For example:
+Product Documents
+
+📄 Product information
+📄 Manufacturer document
+📄 Registration document
+📄 Supplier document
+📷 Product image
+The database doesn't have to contain the actual files. You can store the files separately and keep their metadata/path in the database.
+ 
+11. Product registration information
+Because this is a Nigerian pharmacy, I'd discuss whether they want fields for relevant regulatory/registration information, such as:
+Registration Number
+Regulatory Status
+Manufacturer
+Importer
+Supplier
+I would make these configurable rather than hard-code assumptions about what every product must have.
+ 
+12. Categories
+You could have:
+Products
+│
+├── Medicines
+│   ├── Analgesics
+│   ├── Antibiotics
+│   ├── Antimalarials
+│   ├── Antihypertensives
+│   └── ...
+│
+├── Supplements
+├── Cosmetics
+├── Personal Care
+├── Medical Devices
+├── Baby Care
+└── Other
+And the Product Type could be:
+Tablet
+Capsule
+Syrup
+Suspension
+Injection
+Cream
+Ointment
+Gel
+Lotion
+Drops
+Spray
+Inhaler
+Suppository
+Powder
+Solution
+Device
+Other
+The pharmacy should be able to add its own categories and product types.
+ 
+13. The actual Add Product screen
+I'd make it something like:
+┌───────────────────────────────────────────────────────┐
+│ ADD PHARMACEUTICAL PRODUCT                            │
+├───────────────────────────────────────────────────────┤
+│                                                       │
+│ BASIC INFORMATION                                     │
+│                                                       │
+│ Product Name *     [____________________________]     │
+│ Generic Name       [____________________________]     │
+│ Brand Name         [____________________________]     │
+│ Category *         [ Medicines ▼ ]                    │
+│ Product Type *     [ Tablet ▼ ]                       │
+│ Manufacturer       [____________________________]     │
+│ Barcode            [____________________________]     │
+│                                                       │
+├───────────────────────────────────────────────────────┤
+│ PHARMACEUTICAL INFORMATION                            │
+│                                                       │
+│ Active Ingredients [____________________________]     │
+│ Strength           [____________________________]     │
+│ Dosage Form        [____________________________]     │
+│ Route              [ Oral ▼ ]                         │
+│ Prescription       [ Yes / No ]                       │
+│ Description        [____________________________]     │
+│                    [____________________________]     │
+│                                                       │
+├───────────────────────────────────────────────────────┤
+│ SAFETY / USAGE                                        │
+│                                                       │
+│ Minimum Age        [____]                             │
+│ Maximum Age        [____]                             │
+│ Contraindications  [____________________________]     │
+│ Precautions        [____________________________]     │
+│ Side Effects       [____________________________]     │
+│ Storage            [____________________________]     │
+│                                                       │
+├───────────────────────────────────────────────────────┤
+│ BRANCH AVAILABILITY                                   │
+│                                                       │
+│ ☑ Ikeja     ☑ Lekki     ☑ Yaba                       │
+│ ☑ Surulere  ☑ Victoria Island                        │
+│                                                       │
+│ [ Select All ]                                        │
+│                                                       │
+├───────────────────────────────────────────────────────┤
+│ [ Cancel ]                          [ SAVE PRODUCT ]   │
+└───────────────────────────────────────────────────────┘
+But I'd not put everything on one giant screen. I'd use tabs/sections:
+Basic Info | Pharmaceutical | Safety | Batches | Branches | Documents
+That keeps the UI clean despite having a lot of information available.
+ 
+14. One critical distinction: Product vs Batch
+This is probably the most important data-model decision we've reached so far.
+You should have something conceptually like:
+Product
+ ├── name
+ ├── generic_name
+ ├── manufacturer
+ ├── description
+ ├── dosage_form
+ ├── strength
+ └── ...
+
+Batch
+ ├── product
+ ├── batch_number
+ ├── manufacturing_date
+ ├── expiry_date
+ ├── purchase_price
+ └── ...
+
+BranchInventory
+ ├── branch
+ ├── batch
+ ├── quantity
+ └── ...
+
+Sale
+ ├── branch
+ ├── staff
+ └── ...
+
+SaleItem
+ ├── sale
+ ├── product/batch
+ ├── quantity
+ └── price
+That structure will make your expiry tracking, stock management, purchasing, sales, auditing and synchronization much easier to implement correctly.
+And because you're making this a commercial product with a two-month trial and subscription afterward, I'd design the database/API properly from the beginning rather than trying to retrofit these requirements after you've built the UI.
+
+
+I also noticed that this particular branch has 5 shelf and they have each staff incharge of a shelf this user will also be responsible for the store count and audit of that shelf at the end of the month. Note not all pharmacy will use this method 
+
+
+Yes — this is an important requirement, and I would not hard-code “one staff = one shelf” into the system.
+Instead, we should make shelf/section responsibility configurable per branch.
+Recommended design
+The system should support a hierarchy like:
+Branch → Storage Area/Shelf → Assigned Staff
+For this particular pharmacy:
+Shelf	Assigned staff	Responsibility
+Shelf 1	Staff A	Sales/stock responsibility + monthly count
+Shelf 2	Staff B	Sales/stock responsibility + monthly count
+Shelf 3	Staff C	Sales/stock responsibility + monthly count
+Shelf 4	Staff D	Sales/stock responsibility + monthly count
+Shelf 5	Staff E	Sales/stock responsibility + monthly count
+But another pharmacy might have:
+•	No shelf assignments at all
+•	10 shelves with 2 staff per shelf
+•	Staff assigned to departments instead of shelves
+•	One person responsible for the entire store
+•	Different assignments on different days/shifts
+So the feature should be optional and configurable.
+How I'd model it
+We can have something like:
+Branch
+ ├── Storage Areas / Shelves
+ │     ├── Shelf A
+ │     ├── Shelf B
+ │     ├── Shelf C
+ │     └── ...
+ │
+ └── Staff
+       ├── Staff 1
+       ├── Staff 2
+       └── ...
+Then a separate assignment:
+ShelfAssignment
+    branch
+    shelf
+    staff
+    start_date
+    end_date
+    active
+This is better than putting shelf_id directly on the staff record because assignments can change.
+For example:
+Staff A was responsible for Shelf 2 from January–March.
+Then:
+Staff B took over Shelf 2 from April.
+The audit history remains intact.
+ 
+Monthly shelf counting
+This is where it becomes particularly useful.
+At the end of the month, the system can create a Stock Count / Inventory Audit.
+For example:
+September 30 — Branch 3 — Shelf 2
+System quantity:
+125 units
+Staff physically counts:
+121 units
+Difference:
+-4 units
+The system should record:
+•	Branch
+•	Shelf
+•	Staff responsible
+•	Date/time count started
+•	Date/time completed
+•	Product
+•	Batch
+•	System quantity
+•	Physical quantity
+•	Difference
+•	Reason for adjustment
+•	Person who approved the adjustment
+•	Approval date/time
+•	Audit status
+So the auditor can later see exactly what happened.
+Even better: don't allow silent corrections
+If someone counts 121 while the system says 125, the staff shouldn't simply change the inventory to 121.
+Instead:
+System quantity:     125
+Physical count:      121
+Variance:             -4
+Status:               Pending Review
+Then an authorized person can approve the adjustment.
+That gives you a proper audit trail:
+30 Sep 2026  18:42
+Staff: John
+Branch: Branch 2
+Shelf: Shelf 4
+
+Physical count: 121
+System count:   125
+Variance:       -4
+
+Reason: Damaged/missing stock
+
+Approved by: Admin
+Approved at: 30 Sep 2026 19:03
+That will be very useful when the external auditor comes.
+ 
+We should also distinguish responsibility from physical location
+This is important.
+A product could be:
+Paracetamol
+    ↓
+Batch ABC123
+    ↓
+Branch 1
+    ↓
+Shelf 3
+    ↓
+Quantity: 45
+Another branch could have the same product:
+Paracetamol
+    ↓
+Batch XYZ789
+    ↓
+Branch 2
+    ↓
+Shelf 1
+    ↓
+Quantity: 70
+So shelf belongs to the branch, not globally to the product.
+And a shelf can contain many different products.
+ 
+The system should therefore have configurable features
+I'd structure the settings roughly like:
+Branch Settings
+Branch Name
+Address
+Phone
+...
+Inventory Settings
+☑ Enable shelf/location management
+
+☑ Require shelf when receiving stock
+
+☑ Require shelf when performing stock count
+
+☑ Allow staff to be assigned to shelves
+
+☑ Enable monthly stock counts
+For a pharmacy that doesn't use shelves, they simply disable it.
+For this pharmacy:
+Shelf Management: ON
+Staff Shelf Assignment: ON
+Monthly Shelf Audit: ON
+Another pharmacy could have:
+Shelf Management: OFF
+Staff Shelf Assignment: OFF
+Monthly Shelf Audit: OFF
+And the rest of the application still works normally.
+ 
+One more thing I'd add
+Since staff are responsible for specific shelves, the dashboard can become role + responsibility aware.
+A shelf staff member could see:
+My Shelf
+•	Products assigned to my shelf
+•	Current stock
+•	Low-stock items
+•	Expiring products
+•	Today's sales
+•	Monthly sales
+•	Pending stock counts
+•	Previous count results
+•	Stock variances
+While the branch manager/admin can see:
+Branch Inventory
+•	All shelves
+•	All staff
+•	Total stock
+•	Variances
+•	Uncounted shelves
+•	Completed monthly counts
+•	Suspicious/repeated discrepancies
+This fits very well with the audit requirement you described.
+So I would add “Shelf/Storage Location Management” as an optional module in the architecture, rather than making it a fundamental assumption of the pharmacy system.
+
+
+Now i need you to write all we have discussed into a readme file for me to give my ide ai to get started snd please dont be lazy be as detailed as possible
+
+
+Analysis errored
+from pathlib import Path
+
+readme = r"""# Pharmacy Management System — Product Requirements & Technical Specification
+
+## 1. Purpose of This Document
+
+This README is the master specification for building a professional, commercial-grade pharmacy management system.
+
+It is intended to be given to an IDE AI/coding agent as the primary project brief before implementation begins.
+
+The system must NOT be treated as a simple CRUD application or a school demonstration project. It is intended to be a real product that can be deployed to pharmaceutical businesses with multiple branches, different workflows, staff roles, inventory controls, sales, purchasing, receipts, auditing, reporting, and offline operation.
+
+The first known customer has 5 branches, but the architecture MUST NOT be hard-coded around exactly 5 branches. The number of branches must be configurable.
+
+The first known customer also uses a shelf-responsibility workflow where each shelf has a staff member responsible for it and that staff member participates in monthly stock counting/auditing. However, this is NOT universal across pharmacies. Shelf/location management and shelf-staff assignment must therefore be optional, configurable per branch.
+
+The product should support a 2-month trial period followed by a monthly subscription model. Licensing/subscription must be designed so that Internet outages do not unnecessarily stop normal pharmacy operations.
+
+---
+
+# 2. Core Product Vision
+
+Build a modern pharmacy/business management desktop application that:
+
+1. Works reliably even when Internet access is unavailable.
+2. Stores operational data locally at each branch.
+3. Synchronizes branch data with a central cloud backend whenever Internet becomes available.
+4. Supports multiple branches.
+5. Uses individual staff accounts and role-based permissions.
+6. Allows the same administrator account to operate from different branches while accurately recording which branch/device the administrator was physically operating from.
+7. Provides strong audit trails for financial, inventory, product, user, configuration, and system activity.
+8. Supports pharmaceutical products with rich optional pharmaceutical information.
+9. Handles products, batches, expiry dates, stock, purchases, sales, expenses, returns, adjustments, transfers, and stock counts.
+10. Generates and prints professional receipts on thermal receipt printers.
+11. Provides management dashboards and reports.
+12. Supports optional shelf/location management.
+13. Supports monthly stock counting and variance approval.
+14. Provides an auditor-friendly history of what happened, who did it, where it happened, and when it happened.
+15. Has a modern professional UI rather than a basic desktop CRUD interface.
+16. Is architected so additional pharmacies and branches can be onboarded without rewriting the application.
+
+---
+
+# 3. Important Architectural Principle
+
+The application is OFFLINE-FIRST.
+
+Do NOT design the application as:
+
+    Desktop App -> Internet -> Central Database
+
+where the desktop application becomes unusable whenever Internet is unavailable.
+
+Instead use:
+
+    Branch Desktop App
+        |
+        +-- Local SQLite Database
+        |
+        +-- Local Sync Queue
+        |
+        +-- Local Application Services
+        |
+        +-- Receipt Printer
+
+and when Internet is available:
+
+    Branch Desktop App
+        |
+        | HTTPS
+        v
+    Django REST API
+        |
+        v
+    Central PostgreSQL Database
+
+There may be multiple branches:
+
+    Branch 1 -> Local SQLite -> Sync -> Central Server
+    Branch 2 -> Local SQLite -> Sync -> Central Server
+    Branch 3 -> Local SQLite -> Sync -> Central Server
+    Branch 4 -> Local SQLite -> Sync -> Central Server
+    Branch 5 -> Local SQLite -> Sync -> Central Server
+
+The number of branches must be dynamic.
+
+---
+
+# 4. Technology Stack
+
+## Desktop
+
+Use:
+
+- Python
+- PySide6
+- Qt Designer where useful
+- Qt Model/View where appropriate
+- requests or httpx for API communication
+- SQLite for local storage
+- SQLAlchemy or a well-structured SQLite persistence layer
+- PyInstaller for packaging
+- Inno Setup for the Windows installer
+
+The desktop application should be capable of being distributed as a professional installer such as:
+
+    PharmacyManagementSetup.exe
+
+The end user should NOT need to install:
+
+- Python
+- PySide6
+- SQLite
+- PostgreSQL
+- Django
+- a separate database server
+
+The local SQLite database is embedded with the application.
+
+## Backend
+
+Use:
+
+- Python
+- Django
+- Django REST Framework
+- PostgreSQL
+- HTTPS
+- Token/session based authentication appropriate for a desktop client
+- Background jobs only where genuinely useful
+
+The central server is responsible for:
+
+- central identity
+- branch registry
+- authoritative centrally managed configuration
+- synchronization
+- cross-branch reporting
+- subscription/license state
+- central audit records
+- centralized product/price information where applicable
+- backup
+- administrator/management access
+- synchronization status
+
+---
+
+# 5. Database Architecture
+
+## 5.1 Local Database
+
+Each branch installation has its own SQLite database.
+
+Example:
+
+    Branch 1
+      pharmacy_branch.db
+
+    Branch 2
+      pharmacy_branch.db
+
+Do not assume SQLite databases from different branches will always have identical data at every moment.
+
+A branch can be offline.
+
+The branch must continue operating using its local database.
+
+## 5.2 Central Database
+
+Use PostgreSQL on the server.
+
+The central database contains:
+
+- organizations/pharmacies
+- branches
+- users
+- roles/permissions
+- products
+- product configuration
+- price history
+- batches where central synchronization requires them
+- transactions received from branches
+- audit logs
+- sync records
+- branch/device registrations
+- subscription/license state
+- centralized reports
+- backup metadata
+
+The server must be designed as a multi-tenant-capable system even if the first deployment only has one pharmacy organization.
+
+Every major business entity should have an organization/tenant relationship where appropriate.
+
+---
+
+# 6. Organization / Pharmacy Structure
+
+The system should support:
+
+    Organization
+        |
+        +-- Branch 1
+        +-- Branch 2
+        +-- Branch 3
+        +-- ...
+        |
+        +-- Users
+        +-- Products
+        +-- Configuration
+        +-- Audit
+
+Do not hard-code one pharmacy or five branches.
+
+A pharmacy organization can have:
+
+- 1 branch
+- 2 branches
+- 5 branches
+- 20 branches
+- etc.
+
+---
+
+# 7. Branches
+
+Each branch should have at least:
+
+- unique branch ID
+- organization ID
+- branch code
+- branch name
+- address
+- phone/contact information
+- active/inactive status
+- configuration
+- timezone
+- local installation/device information
+
+Every operational transaction must know which branch it belongs to.
+
+Examples:
+
+- Sale -> branch
+- Purchase -> branch
+- Expense -> branch
+- Stock receipt -> branch
+- Stock adjustment -> branch
+- Stock count -> branch
+- Stock transfer -> source branch/destination branch
+- Login session -> current branch
+- Audit event -> branch/context
+- Device -> branch
+
+---
+
+# 8. Users and Authentication
+
+Users must have individual accounts.
+
+Do NOT use a single shared staff account for normal staff members.
+
+A user should have:
+
+- user ID
+- username/email/login identifier
+- name
+- password hash
+- role
+- active/inactive status
+- organization
+- permissions
+- created date
+- last login
+- other security metadata as appropriate
+
+Possible roles:
+
+- Super Admin
+- Organization Admin
+- Branch Manager
+- Pharmacist
+- Sales Staff
+- Store/Inventory Staff
+- Auditor
+- Accountant
+- Custom Role
+
+Do not hard-code permissions solely around these names. Build a permission system so the organization can configure roles.
+
+---
+
+# 9. Important Requirement: Same Admin Account Across Branches
+
+The administrator may physically move between branches every day.
+
+The same admin account may be used at:
+
+- Branch 1 today
+- Branch 3 tomorrow
+- Branch 5 another day
+
+Therefore:
+
+    User identity != current branch
+
+A login/session must have both:
+
+    user_id
+    current_branch_id
+
+The system must never infer the branch from the username.
+
+The installation/device should also have a device or installation identifier.
+
+For example:
+
+    User: Admin
+    User ID: ADMIN-001
+    Current Branch: Branch 3
+    Device: BR3-PC-01
+
+If the same administrator later works at Branch 5:
+
+    User: Admin
+    User ID: ADMIN-001
+    Current Branch: Branch 5
+    Device: BR5-PC-01
+
+This must be reflected in the audit trail.
+
+---
+
+# 10. Device / Installation Identity
+
+Each installed branch application should have a unique installation/device identifier.
+
+For example:
+
+    organization_id
+    branch_id
+    device_id
+    installation_id
+
+This is important because an audit should be able to distinguish:
+
+- who did something
+- from which branch
+- on which workstation/device
+- at what time
+- whether it originated offline or online
+
+Do not rely only on username.
+
+---
+
+# 11. Roles and Permissions
+
+The application must use granular permissions.
+
+Examples:
+
+Products:
+
+- product.view
+- product.create
+- product.edit
+- product.archive
+- product.price.update
+
+Inventory:
+
+- inventory.view
+- inventory.receive
+- inventory.adjust
+- inventory.transfer
+- inventory.count
+- inventory.count.approve
+
+Sales:
+
+- sale.create
+- sale.refund
+- sale.void
+- sale.discount
+- sale.view
+
+Purchasing:
+
+- purchase.create
+- purchase.receive
+- purchase.edit
+- purchase.cancel
+
+Expenses:
+
+- expense.create
+- expense.edit
+- expense.approve
+- expense.view
+
+Users:
+
+- user.create
+- user.edit
+- user.disable
+- role.manage
+
+Audit:
+
+- audit.view
+- audit.export
+
+Reports:
+
+- report.view
+- report.export
+
+System:
+
+- settings.view
+- settings.edit
+- branch.manage
+- device.manage
+
+Permissions should be evaluated both in the UI and in backend API authorization.
+
+Do not rely only on hiding buttons.
+
+---
+
+# 12. Product Terminology
+
+Use the general term:
+
+    Product
+
+Do not make the database or UI assume every item is technically a "drug".
+
+A pharmacy may sell:
+
+- medicines
+- tablets
+- capsules
+- syrups
+- creams
+- ointments
+- injections
+- supplements
+- vitamins
+- cosmetics
+- personal care products
+- medical devices
+- baby products
+- other pharmacy items
+
+A product can therefore be categorized and typed.
+
+---
+
+# 13. Product Model
+
+A Product represents stable product information.
+
+It should NOT contain a single manufacturing date or expiry date as the authoritative inventory expiry information.
+
+Suggested product fields:
+
+## Identification
+
+- product_id
+- SKU/product code
+- barcode
+- product name
+- generic name
+- brand name
+- category
+- product type
+
+## Pharmaceutical Information
+
+Optional fields:
+
+- active ingredients
+- strength
+- dosage form
+- route of administration
+- formulation
+- indication
+- contraindications
+- precautions
+- drug interactions
+- side effects
+- storage conditions
+- suitable age group
+- minimum/maximum age if needed
+- pregnancy caution
+- prescription required
+- controlled/restricted status
+
+## Manufacturer / Regulatory
+
+Optional fields:
+
+- manufacturer
+- importer
+- supplier reference
+- regulatory registration number
+- regulatory status
+- country of origin
+
+## General Information
+
+Optional:
+
+- description
+- product image
+- product documents
+- notes
+
+Not every field must be mandatory.
+
+The UI should make only truly essential fields required.
+
+---
+
+# 14. Product Creation and Branch Availability
+
+When an admin creates a new product, the system should allow selecting:
+
+- specific branch(es)
+- all branches
+
+Example:
+
+    Add Product:
+        [x] Branch 1
+        [x] Branch 2
+        [ ] Branch 3
+        [ ] Branch 4
+        [x] Branch 5
+
+or:
+
+    [x] All Branches
+
+Do NOT duplicate the Product record once per branch.
+
+There should be one product definition and a separate branch relationship.
+
+Example:
+
+    Product
+        |
+        +-- Branch 1 availability
+        +-- Branch 2 availability
+        +-- Branch 5 availability
+
+Inventory remains branch-specific.
+
+---
+
+# 15. Product Branch Availability
+
+Create a relationship such as:
+
+    ProductBranch
+
+Possible fields:
+
+- id
+- product_id
+- branch_id
+- active
+- enabled_at
+- disabled_at
+- created_by
+- updated_by
+
+This controls whether a product is available to a branch.
+
+---
+
+# 16. Product Batches
+
+This is extremely important.
+
+Manufacturing date and expiry date belong to a BATCH, not only to Product.
+
+The same product may have:
+
+    Product: Paracetamol 500mg
+
+    Batch A:
+        Batch Number: ABC123
+        Manufacturing Date: ...
+        Expiry Date: ...
+        Purchase Price: ...
+
+    Batch B:
+        Batch Number: DEF456
+        Manufacturing Date: ...
+        Expiry Date: ...
+        Purchase Price: ...
+
+Therefore use:
+
+    Product
+       |
+       +-- Batch A
+       +-- Batch B
+       +-- Batch C
+
+Batch fields may include:
+
+- batch_id
+- product_id
+- batch_number
+- manufacturing_date
+- expiry_date
+- purchase_price
+- supplier
+- supplier_invoice/reference
+- received_date
+- regulatory/batch metadata if required
+- status
+- notes
+
+Do not overwrite batch history when a new shipment arrives.
+
+---
+
+# 17. Branch Inventory
+
+Inventory must be branch-specific.
+
+A suitable conceptual model is:
+
+    Branch
+      +
+    Batch
+      +
+    Location/Shelf (optional)
+      =
+    Inventory Position
+
+Inventory may contain:
+
+- branch
+- batch
+- optional shelf/location
+- quantity
+- reserved quantity if needed
+- available quantity
+- reorder level
+- last updated
+- inventory status
+
+Do not make a single global quantity field for a product.
+
+Example:
+
+    Product: Product A
+
+    Branch 1: 100 units
+    Branch 2: 40 units
+    Branch 3: 0 units
+    Branch 4: 75 units
+    Branch 5: 20 units
+
+---
+
+# 18. Optional Shelf / Storage Location Management
+
+This is an optional feature.
+
+The first customer has 5 shelves and assigns one staff member to each shelf.
+
+However, NOT every pharmacy will use shelves in this manner.
+
+Therefore shelf management must be configurable per branch.
+
+Possible settings:
+
+    Shelf Management: ON/OFF
+    Staff Shelf Assignment: ON/OFF
+    Monthly Shelf Count: ON/OFF
+
+A branch may have:
+
+- no shelves
+- 5 shelves
+- 10 shelves
+- departments
+- storage rooms
+- counters
+- refrigerators
+- custom locations
+
+Do not hard-code the word "Shelf" if a more general concept can be used.
+
+Recommended general entity:
+
+    StorageLocation
+
+It can have:
+
+- location_id
+- branch_id
+- name
+- code
+- location_type
+- description
+- active
+
+Examples:
+
+    Shelf 1
+    Shelf 2
+    Main Store
+    Refrigerator
+    Controlled Drug Cabinet
+    Cosmetics Section
+    Warehouse
+    Counter
+
+The UI can still call them "Shelves" where appropriate.
+
+---
+
+# 19. Staff-to-Shelf Assignment
+
+The first customer has:
+
+    Shelf 1 -> Staff A
+    Shelf 2 -> Staff B
+    Shelf 3 -> Staff C
+    Shelf 4 -> Staff D
+    Shelf 5 -> Staff E
+
+This must NOT be stored permanently as a field like:
+
+    user.shelf_id
+
+because assignments can change.
+
+Instead create an assignment entity.
+
+Conceptually:
+
+    StorageLocationAssignment
+
+Fields:
+
+- id
+- branch_id
+- storage_location_id
+- user_id
+- start_date
+- end_date
+- active
+- assigned_by
+- created_at
+- updated_at
+
+This allows:
+
+    January:
+        Shelf 2 -> Staff A
+
+    April:
+        Shelf 2 -> Staff B
+
+without destroying historical records.
+
+Support multiple staff if the business wants it.
+
+Do not assume exactly one staff member must always be assigned.
+
+---
+
+# 20. Shelf Staff Responsibility
+
+Where enabled, a staff member assigned to a shelf may be responsible for:
+
+- monitoring stock
+- identifying low stock
+- identifying damaged items
+- identifying expired/near-expiry products
+- assisting with shelf stock counts
+- investigating discrepancies
+- monthly physical count
+- reporting stock issues
+
+Do not automatically give them unrestricted permission to modify inventory.
+
+Responsibility and permission are different concepts.
+
+For example:
+
+    Staff A:
+        Responsible for Shelf 2
+
+but:
+
+    Staff A:
+        Cannot approve inventory adjustment
+
+An authorized manager/admin can approve the final adjustment.
+
+---
+
+# 21. Monthly Stock Count / Shelf Audit
+
+The system must support stock counting.
+
+A stock count can be:
+
+- whole branch
+- storage location/shelf
+- selected products
+- selected categories
+- selected batches
+
+For the first customer, monthly shelf counting should be supported.
+
+Example:
+
+    September Monthly Count
+    Branch 1
+    Shelf 3
+    Assigned Staff: Staff C
+
+The system should generate the count list.
+
+For each item:
+
+    Product
+    Batch
+    Shelf
+    System Quantity
+    Physical Quantity
+    Variance
+    Notes
+    Counted By
+    Count Time
+
+Example:
+
+    Product: Paracetamol
+    Batch: ABC123
+    System: 125
+    Physical: 121
+    Variance: -4
+
+---
+
+# 22. Never Silently Modify Stock During Counting
+
+If:
+
+    System Quantity = 125
+    Physical Count = 121
+
+the application must NOT simply overwrite 125 with 121.
+
+Instead create a stock count variance.
+
+Example:
+
+    System: 125
+    Counted: 121
+    Variance: -4
+    Status: Pending Approval
+
+An authorized user can then approve an adjustment.
+
+Record:
+
+- who counted
+- who approved
+- original quantity
+- counted quantity
+- adjustment quantity
+- reason
+- approval time
+- branch
+- shelf
+- product
+- batch
+- audit information
+
+---
+
+# 23. Inventory Movement Model
+
+Do not rely solely on direct quantity overwrites.
+
+Inventory should preferably be represented through movements/events.
+
+Examples:
+
+    STOCK_RECEIVED
+    SALE
+    SALE_RETURN
+    STOCK_TRANSFER_OUT
+    STOCK_TRANSFER_IN
+    STOCK_ADJUSTMENT
+    DAMAGE
+    EXPIRY
+    COUNT_VARIANCE
+    OPENING_BALANCE
+
+This is particularly important because branches can operate offline.
+
+A movement-based model makes synchronization safer.
+
+---
+
+# 24. Sales
+
+The system must support normal pharmacy sales.
+
+A sale should contain:
+
+- sale ID
+- branch
+- staff/user
+- device
+- date/time
+- customer information if the business chooses to collect it
+- payment method
+- subtotal
+- discount
+- tax if applicable/configured
+- total
+- status
+- receipt number
+- sync state
+
+Sale items:
+
+- product
+- batch where required
+- quantity
+- unit selling price
+- discount
+- line total
+
+Do not assume one universal pricing model if future requirements may include multiple prices.
+
+---
+
+# 25. Batch Selection During Sales
+
+Where batch tracking is enabled, the application should know which batches are available.
+
+The system should support configurable stock rotation policies such as:
+
+- FEFO — First Expiry, First Out
+- FIFO — First In, First Out
+- manual batch selection
+
+For pharmaceutical inventory, FEFO should be considered the preferred default where appropriate.
+
+The system should alert staff about:
+
+- expired products
+- near-expiry products
+- unavailable stock
+- insufficient stock
+
+Do not allow expired inventory to be sold unless an explicit, authorized business rule says otherwise.
+
+Do not make medical/legal assumptions without configurable policy and proper regulatory review.
+
+---
+
+# 26. Purchasing / Stock Receiving
+
+Support purchasing and receiving stock.
+
+Purchase/order concepts should include:
+
+- supplier
+- branch
+- purchase reference
+- invoice number
+- date
+- staff/user
+- products
+- batches
+- quantities
+- purchase prices
+- selling price
+- discounts
+- totals
+- payment status
+- received status
+
+Receiving stock should create inventory movements.
+
+Example:
+
+    Purchase received
+        ->
+    Batch created/identified
+        ->
+    Stock movement created
+        ->
+    Branch inventory updated
+
+---
+
+# 27. Supplier Management
+
+Support suppliers with:
+
+- supplier ID
+- name
+- contact
+- phone
+- email
+- address
+- tax/business information if required
+- notes
+- active/inactive
+
+A product can have multiple suppliers.
+
+A purchase records the actual supplier used.
+
+---
+
+# 28. Price Management
+
+Price management is a critical feature.
+
+The first customer has multiple branches and wants an admin to update prices so that changes reflect across branches.
+
+Product pricing should therefore support centralized price configuration.
+
+Do not simply overwrite a price with no history.
+
+Maintain price history.
+
+Conceptually:
+
+    Product Price
+        Product
+        Selling Price
+        Effective From
+        Effective To
+        Version
+        Created By
+        Created At
+
+When an admin changes a price:
+
+    Old Price: ₦X
+    New Price: ₦Y
+
+record:
+
+- old value
+- new value
+- user
+- branch/context from which the change was made
+- timestamp
+- price version
+- sync status
+- affected branches
+
+---
+
+# 29. Central Price Synchronization
+
+If an admin updates a price centrally:
+
+    Admin changes Product A
+          |
+          v
+    Central server records version
+          |
+          +----> Branch 1
+          +----> Branch 2
+          +----> Branch 3
+          +----> Branch 4
+          +----> Branch 5
+
+Each branch should record exactly when it received/applied the update.
+
+Example:
+
+    Price change created:
+        09:00:00
+
+    Branch 1 received:
+        09:03:17
+
+    Branch 2 received:
+        09:04:52
+
+    Branch 3 received:
+        11:42:08
+
+    Branch 4 received:
+        12:01:35
+
+    Branch 5 received:
+        14:17:09
+
+This is different from the time the admin created the change.
+
+---
+
+# 30. Offline Price Changes
+
+Price updates require special conflict rules.
+
+Prefer centrally controlled pricing.
+
+If offline price editing is permitted, it must have explicit conflict handling.
+
+A recommended first implementation:
+
+- ordinary branch staff cannot change prices
+- authorized admins can request/update prices
+- centrally managed price versions are synchronized to branches
+- branches continue using the latest valid locally cached price while offline
+- when the connection returns, synchronization reconciles the branch with the central version
+
+The exact business rule can later be configured.
+
+---
+
+# 31. Audit Logging
+
+Audit logging is one of the most important parts of the system.
+
+The external auditor visits monthly.
+
+The system must be able to answer:
+
+- Who did this?
+- What did they do?
+- When did they do it?
+- Which branch?
+- Which device?
+- What was the old value?
+- What is the new value?
+- Was it done offline?
+- When did the central server receive it?
+- When did each branch receive the resulting synchronization?
+- Was it approved?
+- Who approved it?
+
+Audit logs should be append-only for normal users.
+
+Do not allow ordinary users to edit/delete audit records.
+
+---
+
+# 32. Audit Event Structure
+
+A generic audit event should support fields such as:
+
+- audit_event_id
+- organization_id
+- branch_id
+- user_id
+- device_id
+- action
+- entity_type
+- entity_id
+- timestamp_local
+- timestamp_utc
+- source
+- offline/online status
+- server_received_at
+- before_data
+- after_data
+- reason
+- correlation_id
+- transaction_id
+- sync_id
+
+Use UTC internally where appropriate and display local business time in the UI.
+
+---
+
+# 33. Important Audit Examples
+
+### Price change
+
+    User: Admin
+    Branch: Branch 3
+    Device: BR3-PC-01
+    Action: PRICE_UPDATED
+
+    Product: Product A
+    Old Price: ₦5,000
+    New Price: ₦5,500
+
+    Local Time: 09:15:20
+    Server Received: 09:17:11
+
+### Inventory adjustment
+
+    User: Branch Manager
+    Branch: Branch 2
+    Shelf: Shelf 4
+
+    Product: Product B
+    Batch: ABC123
+
+    System Quantity: 100
+    Physical Count: 96
+    Adjustment: -4
+
+    Reason: Count variance
+
+    Counted By: Staff D
+    Approved By: Manager
+    Approved At: ...
+
+### Sale
+
+    User: Sales Staff
+    Branch: Branch 1
+    Device: BR1-POS-02
+
+    Sale: INV-000123
+
+    Created locally: 10:05:22
+    Uploaded to server: 13:41:02
+
+This distinction is important because a sale made while offline may be created hours before it reaches the server.
+
+---
+
+# 34. Sync History Per Branch
+
+Central synchronization should record per-branch delivery/application.
+
+For a change such as a price update:
+
+    Change ID: CHG-001
+
+    Branch 1:
+        pending -> received -> applied
+        received_at = ...
+        applied_at = ...
+
+    Branch 2:
+        received -> applied
+
+    Branch 3:
+        pending
+
+    Branch 4:
+        received -> applied
+
+    Branch 5:
+        pending
+
+This allows an admin to see which branches are synchronized.
+
+---
+
+# 35. Sync Architecture
+
+Do NOT synchronize entire SQLite database files.
+
+Do NOT copy one branch SQLite database over another.
+
+Use event/change-based synchronization.
+
+Conceptually:
+
+    Local Change
+        ->
+    Outbox / Sync Queue
+        ->
+    API
+        ->
+    Central Server
+        ->
+    Central Event/Change Log
+        ->
+    Other Branches
+        ->
+    Local Database
+
+---
+
+# 36. Local Outbox
+
+Every important local transaction should produce a synchronization record.
+
+For example:
+
+    sync_outbox
+
+Fields:
+
+- event_id
+- branch_id
+- device_id
+- entity_type
+- entity_id
+- operation
+- payload
+- local_created_at
+- retry_count
+- last_attempt_at
+- status
+- error_message
+
+Possible statuses:
+
+    PENDING
+    SENDING
+    SENT
+    FAILED
+    CONFLICT
+    RESOLVED
+
+---
+
+# 37. Idempotency
+
+Synchronization requests must be idempotent.
+
+If a branch sends the same event twice because of:
+
+- timeout
+- network failure
+- application restart
+- server response lost
+
+the server must not create two sales or two stock movements.
+
+Every event needs a globally unique ID.
+
+The server should safely recognize:
+
+    event already processed
+
+and return the existing result.
+
+---
+
+# 38. Offline Synchronization
+
+When Internet is unavailable:
+
+    User performs sale
+        ->
+    Local SQLite updated
+        ->
+    Receipt printed
+        ->
+    Sync event queued
+
+When Internet returns:
+
+    Sync engine starts
+        ->
+    Upload pending events
+        ->
+    Download remote changes
+        ->
+    Apply changes
+        ->
+    Mark events synchronized
+
+The user should be able to see:
+
+    Online
+    Offline
+    Syncing
+    Last sync: 12:32 PM
+    Pending changes: 4
+
+---
+
+# 39. Sync Retry Logic
+
+The application must automatically retry failed synchronization.
+
+Use sensible backoff.
+
+Do not freeze the POS screen waiting for Internet.
+
+The user should be able to continue working locally while synchronization happens in the background.
+
+A temporary server/network failure must not make the pharmacy unusable.
+
+---
+
+# 40. Sync Conflicts
+
+Conflicts must be explicitly designed.
+
+Do not use blind "last write wins" for inventory quantities.
+
+For example:
+
+    Branch 1 offline:
+        quantity 100
+        sells 10
+        local result 90
+
+    Branch 2 independently:
+        quantity 100
+        sells 20
+        local result 80
+
+When synchronized, the system must not choose 80 or 90 arbitrarily.
+
+Instead model the operations:
+
+    SALE -10
+    SALE -20
+
+and derive the correct resulting stock according to the central inventory state and valid business rules.
+
+Inventory should therefore rely heavily on movements/events rather than direct quantity replacement.
+
+---
+
+# 41. Synchronization of Master Data
+
+Master data such as:
+
+- products
+- categories
+- manufacturers
+- price versions
+- branches
+- users
+- permissions
+- configuration
+
+can be synchronized using version numbers or change versions.
+
+Example:
+
+    Product version 7
+
+Branch has:
+
+    Product version 6
+
+Server sends:
+
+    Product version 7
+
+Branch applies and records:
+
+    received_at
+    applied_at
+
+---
+
+# 42. Branch Synchronization Status
+
+Management dashboard should show:
+
+    Branch 1
+        Online
+        Last Sync: 2 minutes ago
+        Pending: 0
+
+    Branch 2
+        Offline
+        Last Sync: 5 hours ago
+        Pending: 17
+
+    Branch 3
+        Online
+        Syncing
+        Pending: 4
+
+This should help the admin identify operational issues.
+
+---
+
+# 43. Receipts
+
+The application must generate professional receipts.
+
+Support common thermal receipt printers, especially:
+
+- 58mm
+- 80mm
+
+Receipt should include configurable:
+
+- pharmacy name
+- branch name
+- address
+- phone
+- receipt/invoice number
+- date/time
+- cashier/staff
+- items
+- quantity
+- unit price
+- discounts
+- subtotal
+- tax if configured
+- total
+- payment method
+- change
+- footer message
+- refund/return information where applicable
+
+Printing must be fast and should not require Internet.
+
+---
+
+# 44. Receipt Numbering
+
+Receipt numbers must be unique.
+
+Because branches can be offline, avoid simple central sequential numbering that requires an Internet connection.
+
+Use a branch/device-safe numbering strategy.
+
+Example:
+
+    BR01-20260925-000123
+
+or a globally unique transaction ID plus human-readable receipt sequence.
+
+The system must prevent collisions between branches.
+
+---
+
+# 45. Payment Methods
+
+Support configurable payment methods such as:
+
+- Cash
+- POS
+- Bank Transfer
+- Card
+- Other
+
+Do not hard-code only one payment method.
+
+The pharmacy should be able to configure available payment methods.
+
+---
+
+# 46. Refunds, Returns, and Voids
+
+Support proper transaction reversal.
+
+Do NOT simply delete a sale.
+
+A sale should normally be:
+
+    Completed
+    Returned
+    Partially Returned
+    Voided
+    Cancelled
+
+depending on the workflow.
+
+A refund/return should create an audit trail and inventory movement.
+
+Example:
+
+    Original Sale:
+        -5 units
+
+    Return:
+        +2 units
+
+The original transaction remains visible.
+
+---
+
+# 47. Expenses
+
+The system should track branch expenses.
+
+Expense fields may include:
+
+- expense ID
+- branch
+- category
+- description
+- amount
+- payment method
+- date/time
+- created by
+- approved by if required
+- receipt/document attachment
+- notes
+- status
+
+Expense categories should be configurable.
+
+---
+
+# 48. Revenue and Financial Dashboard
+
+The dashboard should provide useful management metrics.
+
+Examples:
+
+- today's sales
+- daily sales
+- weekly sales
+- monthly sales
+- sales by branch
+- sales by product
+- sales by category
+- gross sales
+- discounts
+- returns/refunds
+- expenses
+- net figures where appropriate
+- payment method breakdown
+- top-selling products
+- slow-moving products
+
+Do not claim accounting correctness unless the financial model is properly implemented.
+
+---
+
+# 49. Productivity Dashboard
+
+Possible metrics:
+
+- sales per staff member
+- number of transactions
+- average transaction value
+- sales by shift
+- sales by branch
+- stock counts completed
+- pending stock counts
+- inventory variances
+
+These should be configurable and permission-controlled.
+
+Avoid using productivity metrics as disciplinary decisions automatically.
+
+---
+
+# 50. Inventory Dashboard
+
+Show:
+
+- total products
+- products with stock
+- low stock
+- out of stock
+- near expiry
+- expired
+- stock by branch
+- stock by shelf/location
+- stock value where purchase cost is available
+- pending stock receipts
+- pending transfers
+- stock count variances
+
+---
+
+# 51. Expiry Management
+
+Because this is a pharmacy, expiry handling must be a major feature.
+
+Support:
+
+- expired products
+- products expiring within configurable days
+- batch-level expiry
+- branch-level expiry
+- shelf-level expiry
+- expiry reports
+- alerts
+
+Example settings:
+
+    Alert 90 days before expiry
+    Alert 60 days before expiry
+    Alert 30 days before expiry
+
+Make the threshold configurable.
+
+---
+
+# 52. Stock Transfer Between Branches
+
+Support branch-to-branch stock transfer.
+
+Example:
+
+    Branch 1
+       |
+       | Transfer 20 units
+       v
+    Branch 4
+
+A transfer should have statuses:
+
+    Draft
+    Requested
+    Approved
+    Dispatched
+    In Transit
+    Received
+    Cancelled
+
+Inventory movement should occur according to the transfer workflow.
+
+Receiving branch must confirm receipt.
+
+This is important for accurate branch-level inventory.
+
+---
+
+# 53. Search
+
+Search should be fast.
+
+Support searching by:
+
+- product name
+- generic name
+- brand
+- SKU
+- barcode
+- batch number
+- category
+- manufacturer
+
+For POS, barcode scanning should be a priority.
+
+---
+
+# 54. Product UI
+
+Do NOT build one giant form.
+
+Use sections/tabs.
+
+Recommended product screen:
+
+    Basic Information
+    Pharmaceutical Information
+    Safety Information
+    Pricing
+    Batches
+    Branches
+    Storage Locations
+    Documents
+    Audit History
+
+Fields should be logically grouped.
+
+Optional fields should not overwhelm normal users.
+
+---
+
+# 55. Modern UI Requirements
+
+The UI should look like a commercial business application.
+
+Avoid:
+
+- default old-looking Qt widgets everywhere
+- cluttered screens
+- giant forms
+- tiny text
+- excessive modal dialogs
+- confusing navigation
+- inconsistent spacing
+- random colors
+- poor typography
+
+Use:
+
+- sidebar navigation
+- dashboard cards
+- tables
+- filters
+- search
+- pagination where appropriate
+- clear actions
+- confirmation dialogs for dangerous operations
+- status badges
+- consistent spacing
+- consistent typography
+- keyboard shortcuts for POS
+- responsive resizing
+- dark/light theme if practical
+- professional empty/loading/error states
+
+Use Qt Designer where it improves maintainability, but do not make the UI dependent on manually editing hundreds of `.ui` files unnecessarily.
+
+---
+
+# 56. Suggested Main Navigation
+
+Possible navigation:
+
+    Dashboard
+
+    Sales
+        New Sale
+        Sales History
+        Returns
+        Voided Sales
+
+    Inventory
+        Products
+        Batches
+        Stock
+        Stock Receipts
+        Transfers
+        Adjustments
+        Stock Counts
+        Expiry
+
+    Purchasing
+        Suppliers
+        Purchases
+        Receive Stock
+
+    Expenses
+
+    Reports
+        Sales
+        Inventory
+        Products
+        Staff
+        Expenses
+        Audit
+        Stock Counts
+        Sync
+
+    Administration
+        Users
+        Roles
+        Branches
+        Storage Locations
+        Settings
+        Price Management
+        Devices
+
+    Audit Log
+
+The exact navigation should depend on the logged-in user's permissions.
+
+---
+
+# 57. Dashboard By Role
+
+Do not show every feature to every user.
+
+Example:
+
+Sales Staff:
+
+    Today's Sales
+    New Sale
+    Recent Transactions
+    Assigned Shelf/Location if applicable
+    Low Stock Notifications if permitted
+
+Store Staff:
+
+    Inventory
+    Receive Stock
+    Stock Count
+    Expiry
+    Assigned Location
+
+Manager:
+
+    Branch Sales
+    Inventory
+    Staff Activity
+    Expenses
+    Stock Variances
+    Reports
+
+Admin:
+
+    All relevant management features
+    Cross-branch dashboards
+    Pricing
+    Users
+    Configuration
+    Audit
+    Sync
+
+Auditor:
+
+    Read-only audit/report access
+
+---
+
+# 58. Audit Dashboard
+
+Create a powerful audit screen.
+
+Filters:
+
+- date range
+- branch
+- user
+- device
+- action
+- entity type
+- product
+- transaction ID
+- synchronization status
+
+Columns:
+
+    Date/Time
+    User
+    Role
+    Branch
+    Device
+    Action
+    Entity
+    Reference
+    Status
+
+Clicking an event should show:
+
+    Before
+    After
+    Reason
+    Related Transaction
+    Sync History
+    Approval History
+
+---
+
+# 59. Monthly Auditor Workflow
+
+The external auditor should be able to review:
+
+- sales
+- refunds
+- voids
+- purchases
+- stock adjustments
+- stock counts
+- stock variances
+- expenses
+- product changes
+- price changes
+- user activity
+- login history
+- synchronization history
+- branch activity
+
+Provide export options where appropriate:
+
+- CSV
+- PDF
+
+Do not allow an auditor to modify operational data unless explicitly given a separate permission.
+
+---
+
+# 60. Login Audit
+
+Record:
+
+- successful login
+- failed login
+- logout
+- branch selected
+- device
+- timestamp
+- IP/server metadata where legally and technically appropriate
+- offline/online state
+
+Do not store plaintext passwords.
+
+---
+
+# 61. Security
+
+Minimum requirements:
+
+- passwords hashed securely
+- API communication over HTTPS
+- authentication tokens handled securely
+- permissions enforced server-side
+- sensitive local configuration protected as much as practical
+- audit records protected
+- database backups
+- no hard-coded production credentials
+- no API secrets in source code
+- environment variables for server secrets
+- input validation
+- SQL injection protection through ORM/parameterized queries
+- safe file upload validation
+- rate limiting for sensitive API endpoints
+- account lockout or throttling for repeated failed logins
+- session/token expiration and refresh where appropriate
+
+---
+
+# 62. Local Database Security
+
+SQLite is embedded and requires no database server.
+
+However, it still contains sensitive business data.
+
+Consider:
+
+- OS-level access controls
+- encrypted storage where appropriate
+- protected configuration
+- safe backup
+- restricted application directory
+- integrity checks
+
+If database encryption is implemented, choose a mature approach rather than inventing cryptography.
+
+---
+
+# 63. Backups
+
+Backups are essential.
+
+Local branch databases should have backup support.
+
+Possible:
+
+    automatic daily local backup
+    manual backup
+    restore workflow
+    central server backup
+
+Do not silently overwrite the only backup.
+
+Backup filenames should contain:
+
+- organization
+- branch
+- date
+- time
+- version
+
+Example:
+
+    branch_03_backup_2026-09-25_230000.db
+
+Restores should require authorization.
+
+---
+
+# 64. Subscription / Trial
+
+The commercial model is:
+
+    2-month trial
+    ->
+    monthly subscription
+
+Subscription state should be centrally managed.
+
+However, Internet outages must not immediately disable normal pharmacy operation.
+
+Design an offline licensing mechanism.
+
+Possible concept:
+
+    Server issues signed license/entitlement
+        |
+        v
+    Local app stores valid entitlement
+        |
+        v
+    App can operate offline within permitted grace period
+        |
+        v
+    Periodic synchronization validates entitlement
+
+Do NOT implement subscription as:
+
+    if internet unavailable:
+        block application
+
+The pharmacy must remain operational during normal Internet outages.
+
+Subscription expiration policy must be configurable and clearly defined.
+
+---
+
+# 65. Sync and Licensing Must Be Separate
+
+A branch can be:
+
+    Offline for synchronization
+
+while still:
+
+    Licensed and operational
+
+Do not confuse:
+
+    "server unavailable"
+
+with:
+
+    "subscription expired"
+
+The application should distinguish:
+
+- Internet unavailable
+- Server unavailable
+- Sync pending
+- License valid offline
+- License nearing expiry
+- License expired
+
+---
+
+# 66. Installer
+
+The final Windows deployment should use a proper installer.
+
+Recommended:
+
+    PyInstaller
+        +
+    Inno Setup
+
+The installer should:
+
+- install the application
+- create required directories
+- initialize local database
+- create shortcuts
+- install configuration
+- optionally register startup/background sync
+- support upgrade
+- preserve user data during upgrades
+- support uninstall without accidentally deleting important database/backups unless explicitly selected
+
+Do NOT require the pharmacy to manually run Python commands.
+
+---
+
+# 67. Initial Branch Setup
+
+On first launch, a branch installation should go through setup.
+
+Example:
+
+    Organization
+    Branch
+    Device Name
+    Admin/authorized setup credentials
+    Server URL
+    Installation ID
+    Initial synchronization
+
+If the branch is offline during installation, provide a controlled setup mechanism rather than assuming permanent Internet access.
+
+---
+
+# 68. Server API
+
+Create clean API modules.
+
+Potential API groups:
+
+    /api/auth/
+    /api/organizations/
+    /api/branches/
+    /api/users/
+    /api/roles/
+    /api/products/
+    /api/categories/
+    /api/batches/
+    /api/inventory/
+    /api/sales/
+    /api/purchases/
+    /api/suppliers/
+    /api/expenses/
+    /api/transfers/
+    /api/stock-counts/
+    /api/audit/
+    /api/sync/
+    /api/pricing/
+    /api/reports/
+    /api/licenses/
+
+Exact URL naming can be refined during implementation.
+
+---
+
+# 69. Sync API
+
+The sync API should support:
+
+    upload local changes
+    download remote changes
+    acknowledge events
+    report conflicts
+    report branch/device status
+    retrieve sync status
+
+Example conceptual request:
+
+    POST /api/sync/push
+
+Payload:
+
+    {
+        events: [...]
+    }
+
+Example response:
+
+    accepted
+    rejected
+    conflicts
+    acknowledgements
+
+And:
+
+    GET /api/sync/pull?cursor=...
+
+Use cursors/version numbers rather than repeatedly downloading the entire database.
+
+---
+
+# 70. Change Cursor
+
+Each branch should maintain a synchronization cursor.
+
+Example:
+
+    last_server_cursor = 18423
+
+Server has:
+
+    18424
+    18425
+    18426
+
+Branch asks for changes after:
+
+    18423
+
+Server returns:
+
+    18424
+    18425
+    18426
+
+Branch applies them and updates:
+
+    last_server_cursor = 18426
+
+This makes synchronization efficient.
+
+---
+
+# 71. Transaction IDs and UUIDs
+
+Use globally unique IDs for distributed data.
+
+Do not rely only on auto-increment integers across branches.
+
+Use UUID/ULID or another suitable globally unique identifier.
+
+Local branch transactions can therefore be safely created offline.
+
+Human-readable numbers can still be generated separately.
+
+---
+
+# 72. Time Handling
+
+Distributed systems require careful time handling.
+
+Store authoritative timestamps in UTC where appropriate.
+
+Also preserve relevant local business time/context.
+
+For audit purposes, display:
+
+    25 September 2026, 10:32:17 AM
+
+with the branch's configured timezone.
+
+Never rely solely on the user's computer clock for authoritative server timestamps.
+
+When offline, record:
+
+    local_created_at
+
+When received by server:
+
+    server_received_at
+
+When applied elsewhere:
+
+    branch_received_at
+    branch_applied_at
+
+---
+
+# 73. Data Ownership Rules
+
+Define which system is authoritative for each type of data.
+
+Example:
+
+Central authority:
+
+- organization
+- branches
+- users/roles
+- centrally managed products
+- centrally managed prices
+- licensing
+- central audit aggregation
+
+Branch authority:
+
+- local sales
+- local expenses
+- local stock movements
+- local stock counts
+- local receiving
+- local operational events
+
+Some data may be synchronized bidirectionally.
+
+Do not use vague "last update wins" everywhere.
+
+---
+
+# 74. Product and Price Synchronization
+
+Products created for all branches should propagate to all selected branches.
+
+Example:
+
+    Admin creates Product X
+
+    Branch selection:
+        Branch 1
+        Branch 2
+        Branch 4
+
+Then those branches receive the product.
+
+Branch 3 does not.
+
+If the product is later enabled for Branch 3:
+
+    ProductBranch relationship is created
+
+    Branch 3 receives product master data
+
+Prices can be centrally propagated according to the price versioning rules.
+
+---
+
+# 75. Inventory Synchronization
+
+Inventory should be reconstructed from movements where possible.
+
+Example:
+
+Opening:
+
+    100
+
+Movements:
+
+    +50 received
+    -10 sale
+    -5 damage
+    +2 return
+
+Current:
+
+    137
+
+This is more auditable than simply:
+
+    quantity = 137
+
+without knowing how it became 137.
+
+---
+
+# 76. Stock Count Audit
+
+A stock count must never destroy the history of what the system expected.
+
+Store:
+
+    expected_quantity
+    counted_quantity
+    variance
+
+The adjustment, if approved, should be a separate inventory event.
+
+---
+
+# 77. Data Retention
+
+Do not automatically delete:
+
+- sales
+- purchases
+- inventory movements
+- stock counts
+- audit events
+- price history
+- synchronization records
+
+Use archival policies if storage grows.
+
+Deletion of important records should generally be replaced with status changes/archival where appropriate.
+
+---
+
+# 78. Documents and Images
+
+Products may have:
+
+- image
+- registration documents
+- supplier documents
+- certificates
+- invoices
+- other attachments
+
+Do not unnecessarily store huge binary files directly inside every local database row.
+
+Prefer:
+
+    file metadata
+    file ID/path/object storage reference
+
+The exact storage strategy can be chosen later.
+
+Validate:
+
+- file type
+- file size
+- access permission
+
+---
+
+# 79. Reporting
+
+Reports should be filterable by:
+
+- date
+- branch
+- product
+- category
+- staff
+- supplier
+- shelf/location
+- batch
+- transaction type
+
+Important reports:
+
+### Sales
+
+- daily sales
+- monthly sales
+- branch sales
+- staff sales
+- product sales
+- category sales
+- payment method
+
+### Inventory
+
+- current stock
+- stock value
+- low stock
+- out of stock
+- expiry
+- batch report
+- stock movement
+- stock adjustments
+- transfer report
+
+### Audit
+
+- user activity
+- price changes
+- inventory adjustments
+- voids
+- refunds
+- product changes
+- login activity
+- sync history
+
+### Shelf
+
+When enabled:
+
+- stock by shelf
+- shelf count
+- shelf variance
+- staff responsibility
+- monthly count completion
+
+---
+
+# 80. Configuration
+
+Avoid hard-coding business rules.
+
+Provide settings for:
+
+- currency
+- receipt size
+- printer
+- tax if applicable
+- low-stock threshold
+- expiry alert threshold
+- product categories
+- product types
+- payment methods
+- expense categories
+- stock count frequency
+- shelf/location usage
+- shelf assignment
+- price permissions
+- discount permissions
+- return permissions
+- receipt footer
+- branch information
+
+---
+
+# 81. First Customer's Five-Shelf Workflow
+
+The first customer can configure:
+
+    Branch 1
+        Shelf 1 -> Staff A
+        Shelf 2 -> Staff B
+        Shelf 3 -> Staff C
+        Shelf 4 -> Staff D
+        Shelf 5 -> Staff E
+
+At month end:
+
+    Create Monthly Stock Count
+        |
+        +-- Shelf 1
+        +-- Shelf 2
+        +-- Shelf 3
+        +-- Shelf 4
+        +-- Shelf 5
+
+Each responsible staff member performs the physical count.
+
+Management sees:
+
+    Shelf
+    Assigned Staff
+    Expected
+    Counted
+    Variance
+    Status
+
+An authorized person approves adjustments.
+
+The external auditor can later review the entire process.
+
+---
+
+# 82. But Do Not Make This Workflow Mandatory
+
+Another pharmacy may configure:
+
+    Shelf Management: OFF
+
+and simply have:
+
+    Branch Inventory
+
+Another may use:
+
+    Main Store
+    Refrigerator
+    Controlled Cabinet
+
+Another may assign:
+
+    Department -> Staff
+
+The system should support all these patterns using the general StorageLocation concept.
+
+---
+
+# 83. POS Requirements
+
+The sales screen should prioritize speed.
+
+Support:
+
+- barcode scanning
+- product search
+- keyboard navigation
+- quantity editing
+- discount where permitted
+- payment
+- change calculation
+- receipt printing
+- receipt reprint
+- transaction cancellation with permission
+- offline operation
+
+The POS must not make a network request for every product scan.
+
+Products/prices/stock needed for normal operation must be available locally.
+
+---
+
+# 84. Error Handling
+
+Never silently fail.
+
+Examples:
+
+If synchronization fails:
+
+    "Internet connection unavailable.
+     Your transaction was saved locally.
+     It will synchronize automatically."
+
+If receipt printing fails:
+
+    "Sale completed.
+     Receipt printer is unavailable.
+     Retry printing."
+
+Do not roll back a completed sale merely because the printer failed.
+
+Similarly, network failure should not destroy a local transaction.
+
+---
+
+# 85. Logging
+
+Application logs should be separate from business audit logs.
+
+Application logs are for developers/operators:
+
+- errors
+- warnings
+- sync failures
+- printer failures
+- startup problems
+
+Business audit logs are for accountability:
+
+- who changed price
+- who sold
+- who adjusted stock
+- who approved
+- etc.
+
+Do not mix the two concepts.
+
+---
+
+# 86. Testing Requirements
+
+The project must include tests.
+
+At minimum:
+
+## Unit Tests
+
+- product creation
+- price versioning
+- batch handling
+- inventory movements
+- sale calculation
+- returns
+- stock count variance
+- permission checks
+- sync event creation
+- idempotency
+
+## Integration Tests
+
+- desktop -> API
+- API -> PostgreSQL
+- sync upload
+- sync download
+- conflict handling
+- branch propagation
+- price synchronization
+
+## Offline Tests
+
+Simulate:
+
+    Internet available
+    Internet unavailable
+    Internet returns
+    Server unavailable
+    Duplicate sync
+    Partial sync
+    Application crash during sync
+
+## Printer Tests
+
+Test supported receipt printer workflows.
+
+---
+
+# 87. Critical Offline Scenarios to Test
+
+Scenario 1:
+
+    Internet disconnected
+    Staff sells 5 products
+    Receipt prints
+    App continues working
+
+Expected:
+
+    sale exists locally
+    stock decreases locally
+    sync event pending
+
+Scenario 2:
+
+    Internet reconnects
+
+Expected:
+
+    pending sale uploads
+    server accepts
+    event marked synchronized
+
+Scenario 3:
+
+    upload succeeds but response is lost
+
+Expected:
+
+    retry does NOT duplicate the sale
+
+Scenario 4:
+
+    admin updates price centrally while Branch 2 is offline
+
+Expected:
+
+    Branch 2 continues operating with its latest valid cached price
+    Branch 2 receives the new price when online
+    audit records delivery/application time
+
+---
+
+# 88. Development Structure
+
+Use clean separation of concerns.
+
+Desktop application:
+
+    app/
+        ui/
+        models/
+        services/
+        repositories/
+        database/
+        sync/
+        printing/
+        auth/
+        permissions/
+        reports/
+        utils/
+        config/
+
+Backend:
+
+    server/
+        config/
+        apps/
+            organizations/
+            branches/
+            users/
+            products/
+            inventory/
+            sales/
+            purchases/
+            suppliers/
+            expenses/
+            transfers/
+            stock_counts/
+            audit/
+            sync/
+            pricing/
+            licensing/
+            reports/
+
+Do not put the entire application into one giant Python file.
+
+---
+
+# 89. Recommended Desktop Layers
+
+Use a structure similar to:
+
+    UI
+      |
+    Application Services
+      |
+    Domain/Business Logic
+      |
+    Repositories
+      |
+    SQLite
+
+For example:
+
+    SaleWindow
+        ->
+    SaleService
+        ->
+    SaleRepository
+        ->
+    SQLite
+
+The sync service should not directly manipulate random UI widgets.
+
+---
+
+# 90. Recommended Backend Layers
+
+Use:
+
+    API
+      |
+    serializers/validation
+      |
+    services/business logic
+      |
+    models/repositories
+      |
+    PostgreSQL
+
+Do not put complicated business logic only inside API view functions.
+
+---
+
+# 91. Code Quality Requirements
+
+The coding agent must:
+
+- write maintainable code
+- use clear names
+- avoid duplicated business logic
+- use type hints where useful
+- validate input
+- handle exceptions
+- use transactions for critical database operations
+- avoid hard-coded IDs
+- avoid hard-coded branch counts
+- avoid hard-coded shelf counts
+- avoid hard-coded user roles where permissions should be configurable
+- avoid storing secrets in source
+- document complex synchronization logic
+- write tests for critical workflows
+
+---
+
+# 92. Do Not Build Everything at Once
+
+Implementation should be incremental.
+
+Recommended phases:
+
+## Phase 1 — Foundation
+
+Build:
+
+- project structure
+- configuration
+- local SQLite
+- Django/PostgreSQL
+- basic authentication
+- organizations
+- branches
+- users
+- roles/permissions
+
+## Phase 2 — Product and Inventory
+
+Build:
+
+- products
+- categories
+- product branch availability
+- batches
+- inventory
+- storage locations
+- optional shelf assignment
+
+## Phase 3 — Sales
+
+Build:
+
+- POS
+- barcode
+- sales
+- receipts
+- printing
+- returns
+- voids
+
+## Phase 4 — Purchasing
+
+Build:
+
+- suppliers
+- purchases
+- receiving
+- stock movements
+
+## Phase 5 — Auditing
+
+Build:
+
+- audit log
+- before/after tracking
+- approval workflow
+- monthly stock count
+- shelf audit
+
+## Phase 6 — Synchronization
+
+Build:
+
+- local outbox
+- push
+- pull
+- cursors
+- idempotency
+- retries
+- conflicts
+- per-branch sync status
+
+## Phase 7 — Reports/Dashboards
+
+Build:
+
+- sales
+- inventory
+- expenses
+- productivity
+- audit
+- synchronization
+- expiry
+
+## Phase 8 — Licensing
+
+Build:
+
+- trial
+- subscription
+- offline entitlement
+- central validation
+
+## Phase 9 — Packaging
+
+Build:
+
+- PyInstaller
+- Inno Setup
+- upgrade flow
+- backup/restore
+
+---
+
+# 93. Important Implementation Rule
+
+Do not skip directly to UI screens before designing the data model and synchronization model.
+
+The hardest parts of this application are:
+
+1. Distributed/offline data
+2. Inventory correctness
+3. Auditability
+4. Branch synchronization
+5. Permissions
+6. Batch/expiry tracking
+
+These must be designed correctly before polishing the UI.
+
+---
+
+# 94. Database Design Must Be Reviewed Before Coding
+
+Before implementing the full application, produce:
+
+1. Entity relationship diagram
+2. Local SQLite schema
+3. Central PostgreSQL schema
+4. Relationship definitions
+5. Index strategy
+6. Unique constraints
+7. Foreign key rules
+8. Audit event structure
+9. Sync event structure
+10. Conflict resolution strategy
+
+Then implement.
+
+Do not create tables ad hoc as features are added without reviewing the overall architecture.
+
+---
+
+# 95. Important Indexes
+
+Plan indexes for frequently queried fields.
+
+Examples:
+
+Products:
+
+    SKU
+    barcode
+    name
+    generic_name
+
+Inventory:
+
+    branch_id
+    product_id
+    batch_id
+    storage_location_id
+
+Sales:
+
+    branch_id
+    created_at
+    receipt_number
+    user_id
+
+Audit:
+
+    organization_id
+    branch_id
+    user_id
+    timestamp
+    entity_type
+    entity_id
+    action
+
+Sync:
+
+    event_id
+    status
+    branch_id
+    cursor/version
+
+Do not create excessive indexes without measuring.
+
+---
+
+# 96. Data Integrity
+
+Use database constraints where appropriate.
+
+Examples:
+
+- unique product SKU within the appropriate organization scope
+- unique barcode where business rules require it
+- unique branch code within organization
+- unique batch number according to business rules
+- valid foreign keys
+- non-negative quantities where applicable
+- valid dates
+- valid prices
+- valid status transitions
+
+Do not rely only on UI validation.
+
+---
+
+# 97. Important Inventory Rules
+
+The system must prevent:
+
+- selling more stock than allowed
+- negative stock unless explicitly configured
+- selling expired products where prohibited
+- deleting historical stock movements
+- changing historical sale values without an adjustment/return process
+
+If a correction is required, create a corrective transaction/event.
+
+---
+
+# 98. Audit Immutability
+
+Audit records should not be editable through the normal UI.
+
+If an administrative correction to an audit-related record is ever required, it should itself produce another audit event.
+
+Never make a "delete audit log" button available to ordinary users.
+
+---
+
+# 99. Branch Context
+
+At login, if the user has access to multiple branches, allow them to select the current operating branch.
+
+Example:
+
+    Select Branch
+
+    Branch 1
+    Branch 2
+    Branch 3
+    Branch 4
+    Branch 5
+
+After selection, show:
+
+    Current Branch: Branch 3
+
+The UI should make the active branch obvious.
+
+This is particularly important for the administrator who moves between branches.
+
+Do not allow accidental transactions to be recorded against the wrong branch.
+
+Consider requiring branch confirmation when switching.
+
+---
+
+# 100. Branch Switching
+
+When an authorized user switches branch:
+
+- current context changes
+- UI refreshes
+- inventory changes
+- dashboard changes
+- branch-specific configuration changes
+- active storage locations change
+- audit event records the switch
+- transactions created afterward use the new branch
+
+Do not mix cached branch data incorrectly.
+
+---
+
+# 101. Cross-Branch Administration
+
+Admin may need to view:
+
+    All Branches
+
+or:
+
+    Branch 1 only
+
+The system should clearly distinguish:
+
+    Current Operating Branch
+
+from:
+
+    Reporting Scope
+
+An admin working at Branch 3 may view a report for all branches without making the report's data appear to originate from Branch 3.
+
+Audit records should still record the actual branch context of actions.
+
+---
+
+# 102. Reporting Scope
+
+Reports should allow:
+
+    Current Branch
+    Selected Branch
+    All Branches
+
+Permission must control access.
+
+Ordinary branch staff should generally not automatically see all branches.
+
+---
+
+# 103. Pharmacy-Specific Safety
+
+The system is a business/inventory system.
+
+Do not automatically provide medical recommendations.
+
+Fields such as:
+
+- indication
+- contraindications
+- age
+- pregnancy
+- interactions
+- side effects
+
+are informational product data.
+
+The system should not make clinical decisions unless a separate, validated clinical rules system is intentionally designed and reviewed.
+
+---
+
+# 104. Commercial Product Mindset
+
+This application is intended to be sold as a service.
+
+Therefore build with:
+
+- reliability
+- upgradeability
+- backup
+- logging
+- supportability
+- configuration
+- licensing
+- multi-branch support
+- error reporting
+- maintainability
+
+in mind.
+
+Do not optimize only for the first customer's exact current workflow.
+
+---
+
+# 105. What Must Be Configurable
+
+At minimum:
+
+    Number of branches
+    Branch information
+    Product categories
+    Product types
+    Payment methods
+    Expense categories
+    Roles
+    Permissions
+    Storage locations
+    Shelf usage
+    Staff assignments
+    Stock count workflow
+    Low-stock threshold
+    Expiry alert threshold
+    Receipt format
+    Printer
+    Receipt footer
+    Discounts
+    Return permissions
+    Price permissions
+    Tax settings where applicable
+
+---
+
+# 106. What Must NOT Be Hard-Coded
+
+Do NOT hard-code:
+
+    5 branches
+    5 shelves
+    1 staff per shelf
+    one pharmacy
+    one admin
+    one currency
+    one payment method
+    one product type
+    one printer
+    one receipt size
+    one stock count frequency
+    one role structure
+
+The first customer's configuration can be seeded during setup, but the software architecture must remain generic.
+
+---
+
+# 107. Suggested Initial Seed Configuration for First Customer
+
+For the first deployment:
+
+    Branches:
+        5
+
+    Shelf Management:
+        Enabled
+
+    Monthly Shelf Count:
+        Enabled
+
+    Shelf assignments:
+        Shelf 1 -> Staff A
+        Shelf 2 -> Staff B
+        Shelf 3 -> Staff C
+        Shelf 4 -> Staff D
+        Shelf 5 -> Staff E
+
+This should be configuration data, NOT application logic.
+
+---
+
+# 108. UI First-Launch Experience
+
+A new organization should not see an empty confusing application.
+
+Setup wizard:
+
+    Welcome
+
+    Organization Details
+        ->
+    Create/Configure Branches
+        ->
+    Configure Roles
+        ->
+    Create Users
+        ->
+    Configure Inventory
+        Shelf management? Yes/No
+        ->
+    Configure Printers
+        ->
+    Configure Receipt
+        ->
+    Initial Product Setup
+        ->
+    Complete
+
+Existing organizations should be able to skip the wizard.
+
+---
+
+# 109. Search and Barcode Performance
+
+The POS must feel instant.
+
+Do not perform network searches for each barcode.
+
+Barcode lookup should use local indexes.
+
+When a barcode is scanned:
+
+    scanner
+       ->
+    local database
+       ->
+    product/batch/price/stock
+       ->
+    POS
+
+Target a fast local response.
+
+---
+
+# 110. Printer Architecture
+
+Abstract printer handling.
+
+For example:
+
+    PrinterService
+        |
+        +-- Windows printer
+        +-- ESC/POS thermal printer
+        +-- PDF/test printer
+
+Do not put raw printer commands throughout the POS code.
+
+The receipt generation logic should be separate from the physical printer driver.
+
+---
+
+# 111. Audit and Receipt Relationship
+
+Each sale should have a transaction ID.
+
+The receipt should reference it.
+
+Audit events should reference it.
+
+Example:
+
+    Transaction:
+        SALE-UUID
+
+    Receipt:
+        BR01-20260925-000123
+
+    Audit:
+        SALE_CREATED
+        SALE_PRINTED
+        SALE_SYNCED
+
+This creates traceability.
+
+---
+
+# 112. Sync and Audit Relationship
+
+Every synchronized business event should have a correlation ID.
+
+For example:
+
+    Local event:
+        EVT-123
+
+    Server record:
+        EVT-123
+
+    Branch 2 received:
+        EVT-123
+
+    Branch 2 applied:
+        EVT-123
+
+This makes troubleshooting possible.
+
+---
+
+# 113. Offline Audit
+
+Offline actions still need audit records.
+
+Example:
+
+    10:05 AM
+    Staff creates sale offline
+
+The local audit event is immediately created.
+
+Later:
+
+    1:45 PM
+    Server receives it
+
+The audit system records both.
+
+Do not wait until synchronization to create the local audit record.
+
+---
+
+# 114. Server Audit
+
+When the central server receives an event, it should record:
+
+- server received time
+- originating branch
+- originating device
+- originating user
+- event ID
+- server processing result
+
+This allows comparison between:
+
+    local event time
+    server received time
+    remote branch applied time
+
+---
+
+# 115. Synchronization Monitoring
+
+Create a synchronization management screen.
+
+Show:
+
+    Branch
+    Device
+    Last successful sync
+    Pending uploads
+    Pending downloads
+    Failed events
+    Conflicts
+    Server status
+    License status
+
+Allow authorized admins to inspect failed events.
+
+Do not allow arbitrary manual modification of sync history.
+
+---
+
+# 116. Conflict Management UI
+
+If a conflict occurs, show:
+
+    Conflict ID
+    Entity
+    Branch
+    Local Value
+    Server Value
+    Created Time
+    Reason
+    Status
+
+Then provide an appropriate resolution workflow.
+
+Do not silently discard data.
+
+For inventory, prefer event-based reconciliation rather than asking an admin to choose between two quantities.
+
+---
+
+# 117. Performance Expectations
+
+The application should remain responsive with realistic pharmacy data.
+
+Design for:
+
+- tens of thousands of products
+- large transaction history
+- many batches
+- multiple branches
+- years of sales
+- substantial audit history
+
+Do not assume the first pharmacy's current dataset is the maximum.
+
+---
+
+# 118. Pagination
+
+Use pagination for large lists:
+
+- sales
+- audit logs
+- products where necessary
+- stock movements
+- purchases
+- expenses
+
+Do not load millions of records into a Qt table at once.
+
+---
+
+# 119. Caching
+
+Cache appropriate read-heavy master data locally:
+
+- products
+- categories
+- branches
+- users/permissions
+- price versions
+- configuration
+
+Do not cache sensitive or volatile data without a clear invalidation strategy.
+
+---
+
+# 120. Migration Strategy
+
+The application will evolve.
+
+Use database migrations.
+
+Never assume the database schema will remain unchanged.
+
+For local SQLite:
+
+- version the schema
+- run migrations during application upgrades
+- backup before destructive migrations
+
+For Django/PostgreSQL:
+
+- use Django migrations
+- test migrations before production
+
+---
+
+# 121. Upgrade Strategy
+
+When a new application version is installed:
+
+    Backup local DB
+       ->
+    Check schema version
+       ->
+    Run migrations
+       ->
+    Start application
+
+Never casually delete the existing database during an upgrade.
+
+---
+
+# 122. Error Recovery
+
+If migration fails:
+
+- preserve backup
+- show clear error
+- do not destroy original data
+- log technical details
+- allow support diagnostics
+
+---
+
+# 123. Development Environment
+
+Use separate configuration for:
+
+    development
+    testing
+    staging
+    production
+
+Do not commit production secrets.
+
+Provide `.env.example`.
+
+Example:
+
+    DEBUG=
+    SECRET_KEY=
+    DATABASE_URL=
+    API_BASE_URL=
+    LICENSE_SERVER_URL=
+
+Never commit actual secrets.
+
+---
+
+# 124. Documentation
+
+The project should include:
+
+    README.md
+    architecture documentation
+    database documentation
+    API documentation
+    sync documentation
+    installation guide
+    deployment guide
+    backup/restore guide
+    user manual
+    developer setup guide
+
+The current README is the primary product requirements document.
+
+---
+
+# 125. IDE AI Instructions
+
+When implementing this project, the IDE AI must follow these rules:
+
+1. Read this entire README before writing significant code.
+2. Do not assume the first pharmacy's workflow is universal.
+3. Do not hard-code five branches.
+4. Do not hard-code five shelves.
+5. Do not assume every pharmacy uses shelves.
+6. Do not assume one staff member per shelf.
+7. Keep shelf/storage management configurable.
+8. Do not sacrifice offline functionality for simpler synchronization.
+9. Do not replace SQLite with a required local PostgreSQL/MySQL server.
+10. Do not require the customer to install Python or a database server.
+11. Do not implement synchronization by copying SQLite database files.
+12. Use event/change-based synchronization.
+13. Make sync operations idempotent.
+14. Do not silently overwrite conflicting inventory.
+15. Preserve audit history.
+16. Do not delete historical sales or inventory movements.
+17. Do not allow ordinary users to edit audit logs.
+18. Enforce permissions in both UI and backend.
+19. Keep user identity separate from current branch.
+20. Record branch and device context for every relevant action.
+21. Support the same admin account operating from multiple branches.
+22. Keep product data separate from batch data.
+23. Keep inventory separate from product master data.
+24. Store manufacturing and expiry dates at batch level.
+25. Do not duplicate Product records per branch.
+26. Use ProductBranch/availability relationships.
+27. Build price versioning and price history.
+28. Record when price changes are created and when branches receive/apply them.
+29. Keep local transactions operational when Internet is unavailable.
+30. Do not make receipt printing dependent on Internet.
+31. Do not make the POS depend on network requests.
+32. Write tests for critical business logic.
+33. Do not put the entire application into one file.
+34. Keep business logic separate from UI.
+35. Keep synchronization separate from UI.
+36. Use migrations.
+37. Back up local data before risky migrations.
+38. Never commit credentials.
+39. Use clear error handling.
+40. Prefer maintainability over quick hacks.
+41. Before implementing a complex feature, explain the proposed data model and integration points in the development notes.
+42. When modifying existing code, preserve working functionality unless a requirement explicitly changes it.
+43. Do not remove features merely to make an implementation easier.
+44. If a requirement is ambiguous, inspect the architecture and choose a design that keeps the feature configurable rather than hard-coded.
+45. Build production-quality foundations before adding cosmetic UI polish.
+
+---
+
+# 126. Suggested First Development Task
+
+Before implementing the full UI, the IDE AI should produce an architecture/design package containing:
+
+1. Overall architecture diagram
+2. Local SQLite ERD
+3. Central PostgreSQL ERD
+4. Django app/module structure
+5. PySide6 application structure
+6. Sync protocol design
+7. Audit event model
+8. Inventory movement model
+9. Product/batch/inventory relationship
+10. Branch/storage location relationship
+11. Role/permission model
+12. Price versioning model
+13. Stock count workflow
+14. Subscription/license design
+15. Backup/restore strategy
+16. API endpoint list
+17. Migration strategy
+18. Test strategy
+
+Do not begin by generating hundreds of UI files.
+
+---
+
+# 127. Recommended Core Entities
+
+At a conceptual level, expect entities similar to:
+
+Organization
+Branch
+Device
+User
+Role
+Permission
+RolePermission
+UserRole
+
+Product
+Category
+ProductType
+ProductBranch
+ProductDocument
+Manufacturer
+Supplier
+
+Batch
+BranchInventory
+StorageLocation
+StorageLocationAssignment
+InventoryMovement
+StockAdjustment
+StockTransfer
+
+Sale
+SaleItem
+SaleReturn
+SaleReturnItem
+Payment
+Receipt
+
+Purchase
+PurchaseItem
+PurchasePayment
+StockReceipt
+
+Expense
+ExpenseCategory
+
+StockCount
+StockCountItem
+StockCountApproval
+
+Price
+PriceHistory
+
+AuditEvent
+Approval
+SyncEvent
+SyncCursor
+SyncDelivery
+
+License
+Subscription
+Entitlement
+
+Settings
+PrinterConfiguration
+
+The exact schema can be refined during database design.
+
+---
+
+# 128. Example Overall Relationship
+
+Conceptually:
+
+    ORGANIZATION
+        |
+        +--------------------+
+        |                    |
+      BRANCH               USERS
+        |                    |
+        |                 ROLES
+        |
+        +---- STORAGE LOCATIONS
+        |          |
+        |      ASSIGNMENTS ---- USER
+        |
+        +---- INVENTORY
+        |       |
+        |      BATCH ---- PRODUCT
+        |
+        +---- SALES
+        |
+        +---- PURCHASES
+        |
+        +---- EXPENSES
+        |
+        +---- STOCK COUNTS
+        |
+        +---- TRANSFERS
+        |
+        +---- DEVICES
+        |
+        +---- AUDIT EVENTS
+        |
+        +---- SYNC EVENTS
+
+PRODUCT
+    |
+    +---- CATEGORY
+    +---- PRODUCT BRANCH
+    +---- BATCH
+    +---- PRICE HISTORY
+    +---- DOCUMENTS
+
+---
+
+# 129. MVP vs Future Features
+
+Do not allow the scope to become impossible to deliver.
+
+Recommended MVP:
+
+- authentication
+- organizations
+- branches
+- roles/permissions
+- products
+- categories
+- batches
+- inventory
+- optional shelves
+- staff shelf assignment
+- sales
+- receipts
+- purchasing
+- suppliers
+- expenses
+- stock counts
+- audit
+- offline SQLite
+- synchronization
+- dashboards
+- reports
+- backups
+- installer
+
+Future features can include:
+
+- advanced accounting
+- customer loyalty
+- SMS/email
+- supplier portals
+- advanced forecasting
+- purchase recommendations
+- mobile app
+- web admin portal
+- advanced analytics
+- barcode label printing
+- integrations with external systems
+
+Do not compromise the core architecture for future features.
+
+---
+
+# 130. Final Acceptance Criteria
+
+The first production-ready version should satisfy these scenarios.
+
+## Scenario A — Offline Sale
+
+Internet is disconnected.
+
+Staff logs in.
+
+Staff sells a product.
+
+Stock is reduced locally.
+
+Receipt prints.
+
+Sale appears in local history.
+
+Application remains fully usable.
+
+When Internet returns, sale synchronizes.
+
+No duplicate sale is created.
+
+---
+
+## Scenario B — Central Price Update
+
+Admin logs into Branch 2.
+
+Admin changes Product A:
+
+    ₦5,000 -> ₦5,500
+
+System records:
+
+- admin
+- branch 2
+- device
+- old price
+- new price
+- exact time
+
+Other branches receive the update when online.
+
+Each branch records:
+
+- received time
+- applied time
+
+---
+
+## Scenario C — Admin Moves Branch
+
+Admin works in Branch 1 today.
+
+Tomorrow admin works in Branch 4.
+
+Same account is used.
+
+Audit must distinguish:
+
+    Admin @ Branch 1
+
+from:
+
+    Admin @ Branch 4
+
+No transaction should accidentally inherit yesterday's branch context.
+
+---
+
+## Scenario D — Shelf Count
+
+Branch 1 has 5 shelves.
+
+Each shelf has a responsible staff member.
+
+At month end:
+
+    Shelf 3
+    System: 125
+    Physical: 121
+
+The system records variance -4.
+
+Staff cannot silently rewrite the quantity.
+
+Authorized manager approves or rejects.
+
+The adjustment is recorded as a separate inventory event.
+
+External auditor can inspect the entire history.
+
+---
+
+## Scenario E — Pharmacy Without Shelves
+
+A second pharmacy installs the application.
+
+They do not use shelf responsibility.
+
+They disable:
+
+    Shelf Management
+
+The system still supports:
+
+- products
+- inventory
+- sales
+- purchases
+- reports
+- audit
+- synchronization
+
+without forcing shelves into every workflow.
+
+---
+
+## Scenario F — Five Branches
+
+All five branches operate independently.
+
+Internet goes down at Branch 3.
+
+Branches 1, 2, 4, and 5 continue synchronizing.
+
+Branch 3 continues operating locally.
+
+When Branch 3 reconnects, its queued events synchronize.
+
+The central system can see Branch 3's last synchronization time and pending changes.
+
+---
+
+# 131. Definition of Done
+
+A feature is not considered complete merely because its UI exists.
+
+A feature is complete when:
+
+- UI works
+- local database works
+- business rules work
+- permissions work
+- audit logging works
+- offline behavior works where applicable
+- synchronization works where applicable
+- errors are handled
+- tests exist for critical logic
+- migrations work
+- data cannot be accidentally corrupted
+- reports reflect correct data
+- the feature does not break existing functionality
+
+---
+
+# 132. Final Instruction to the IDE AI
+
+Treat this project as a commercial, offline-first, multi-branch pharmacy management platform.
+
+The first pharmacy is only the first customer and its workflow is only one configuration.
+
+The most important architectural properties are:
+
+    OFFLINE-FIRST
+    MULTI-BRANCH
+    AUDITABLE
+    SYNCHRONIZED
+    CONFIGURABLE
+    ROLE-BASED
+    BATCH-AWARE
+    INVENTORY-SAFE
+    PROFESSIONAL
+    MAINTAINABLE
+
+Do not take shortcuts that undermine these properties.
+
+Before writing major code, design the schema and synchronization architecture.
+
+Then implement incrementally.
+
+Always preserve existing functionality when modifying code.
+
+When there are multiple valid designs, prefer the design that supports future pharmacies without hard-coding the current customer's workflow.
+
+The end result should feel like a real commercial pharmacy management product, not a basic Python desktop project.
+"""
+
+path = Path("/mnt/data/PHARMACY_MANAGEMENT_SYSTEM_README.md")
+path.write_text(readme, encoding="utf-8")
+print(f"Created: {path}")
+print(f"Size: {path.stat().st_size:,} bytes")
+Data analysis isn't available right now. Do you want to continue without it? 
+Data analysis will be available again when usage resets after 6:35 PM. Upgrade now for expanded access and advanced intelligence.
+Try Plus free
+

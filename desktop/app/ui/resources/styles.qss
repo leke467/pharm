@@ -1,0 +1,837 @@
+/* ==========================================================================
+   PharmaCare Enterprise Modern Design System (Livesteads/SaaS Aesthetic)
+   ========================================================================== */
+
+/* Global Reset */
+QWidget {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #1E293B;
+    background-color: #F8FAFC;
+    selection-background-color: #D1FAE5;
+    selection-color: #065F46;
+}
+
+QMainWindow {
+    background-color: #F8FAFC;
+}
+
+/* ==========================================================================
+   Sidebar Navigation (Clean Modern White SaaS Sidebar)
+   ========================================================================== */
+#Sidebar {
+    background-color: #FFFFFF;
+    border-right: 1px solid #E2E8F0;
+    min-width: 260px;
+    max-width: 260px;
+}
+
+#Sidebar QWidget {
+    background-color: transparent;
+}
+
+#BrandContainer {
+    padding: 0px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+#AppTitle {
+    font-size: 16px;
+    font-weight: 800;
+    color: #0F172A;
+    letter-spacing: -0.3px;
+}
+
+#AppTagline {
+    font-size: 11px;
+    font-weight: 600;
+    color: #10B981;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+#UserProfileCard {
+    background-color: #F8FAFC;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 12px;
+}
+
+#UserProfileCard:hover {
+    background-color: #F1F5F9;
+    border-color: #CBD5E1;
+}
+
+#UserAvatar {
+    background-color: #10B981;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 17px;
+    min-width: 34px;
+    max-width: 34px;
+    min-height: 34px;
+    max-height: 34px;
+    text-align: center;
+}
+
+#UserName {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #0F172A;
+}
+
+#UserRole {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748B;
+}
+
+#NavContainer {
+    padding: 8px 10px;
+}
+
+#NavButton {
+    background-color: transparent;
+    color: #475569;
+    border: none;
+    border-radius: 8px;
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    margin: 2px 8px;
+}
+
+#NavButton:hover {
+    background-color: #F1F5F9;
+    color: #0F172A;
+}
+
+#NavButton:checked, #NavButton[active="true"] {
+    background-color: #ECFDF5;
+    color: #059669;
+    font-weight: 700;
+    border-left: 3px solid #10B981;
+}
+
+#NavButton:disabled {
+    color: #CBD5E1;
+}
+
+#LogoutButton {
+    background-color: transparent;
+    color: #EF4444;
+    border: 1px solid #FEE2E2;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 10px 16px;
+}
+
+#LogoutButton:hover {
+    background-color: #FEF2F2;
+    border-color: #FCA5A5;
+}
+
+/* ==========================================================================
+   Top Header Bar & Executive Header
+   ========================================================================== */
+#TopBar {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #FFFFFF, stop:1 #F8FAFC);
+    border-bottom: 1.5px solid #E2E8F0;
+    padding: 10px 24px;
+    min-height: 64px;
+}
+
+#TopBar QLabel {
+    background-color: transparent;
+}
+
+#TopBarBreadcrumb {
+    color: #64748B;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+#TopBarTitle {
+    font-size: 22px;
+    font-weight: 900;
+    color: #0F172A;
+    letter-spacing: -0.5px;
+}
+
+#BranchBadge {
+    background-color: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 12px;
+}
+
+#BranchBadge:hover {
+    border-color: #10B981;
+    background-color: #F0FDF4;
+}
+
+#BranchBadgeName {
+    font-size: 14px;
+    font-weight: 800;
+    color: #0F172A;
+    letter-spacing: -0.2px;
+}
+
+#BranchBadgeTag {
+    font-size: 10px;
+    font-weight: 800;
+    color: #059669;
+    background-color: #ECFDF5;
+    border: 1px solid #A7F3D0;
+    border-radius: 6px;
+    padding: 2px 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#LiveClockBadge {
+    background-color: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #334155;
+    letter-spacing: 0.2px;
+}
+
+#DateBadge {
+    background-color: #F8FAFC;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #475569;
+}
+
+#StatusBadgeOnline {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #ECFDF5, stop:1 #D1FAE5);
+    color: #065F46;
+    border: 1.5px solid #34D399;
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+}
+
+#StatusBadgeOffline {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #FFF1F2, stop:1 #FFE4E6);
+    color: #9F1239;
+    border: 1.5px solid #FDA4AF;
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+}
+
+/* ==========================================================================
+   Page Headers & Descriptions
+   ========================================================================== */
+#PageHeader {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0F172A;
+    letter-spacing: -0.5px;
+    background-color: transparent;
+}
+
+#PageSubtitle {
+    font-size: 13px;
+    font-weight: 400;
+    color: #64748B;
+    background-color: transparent;
+    margin-bottom: 4px;
+}
+
+/* ==========================================================================
+   KPI Summary Metric Cards (Livesteads Multi-Metric Row)
+   ========================================================================== */
+.MetricCard, #MetricCard {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 18px 20px;
+    min-height: 90px;
+}
+
+.MetricCardOrange, #MetricCardOrange {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-top: 4px solid #F97316;
+    border-radius: 12px;
+    padding: 18px 20px;
+    min-height: 90px;
+}
+
+.MetricCardRed, #MetricCardRed {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-top: 4px solid #EF4444;
+    border-radius: 12px;
+    padding: 18px 20px;
+    min-height: 90px;
+}
+
+.MetricCardGreen, #MetricCardGreen {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-top: 4px solid #10B981;
+    border-radius: 12px;
+    padding: 18px 20px;
+    min-height: 90px;
+}
+
+.MetricCardBlue, #MetricCardBlue {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-top: 4px solid #3B82F6;
+    border-radius: 12px;
+    padding: 18px 20px;
+    min-height: 90px;
+}
+
+.MetricTitle, #MetricTitle {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: transparent;
+}
+
+.MetricValue, #MetricValue {
+    font-size: 26px;
+    font-weight: 800;
+    color: #0F172A;
+    background-color: transparent;
+    margin: 4px 0;
+}
+
+.MetricValueGreen {
+    font-size: 26px;
+    font-weight: 800;
+    color: #10B981;
+    background-color: transparent;
+    margin: 4px 0;
+}
+
+.MetricValueOrange {
+    font-size: 26px;
+    font-weight: 800;
+    color: #F97316;
+    background-color: transparent;
+    margin: 4px 0;
+}
+
+.MetricValueRed {
+    font-size: 26px;
+    font-weight: 800;
+    color: #EF4444;
+    background-color: transparent;
+    margin: 4px 0;
+}
+
+.MetricSubtitle, #MetricSubtitle {
+    font-size: 12px;
+    font-weight: 500;
+    color: #94A3B8;
+    background-color: transparent;
+}
+
+/* ==========================================================================
+   Forms, Inputs & Dropdowns
+   ========================================================================== */
+QLineEdit, QDateEdit {
+    background-color: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #0F172A;
+    min-height: 22px;
+}
+
+QComboBox {
+    background-color: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    padding: 8px 32px 8px 12px;
+    font-size: 13px;
+    color: #0F172A;
+    min-height: 22px;
+}
+
+QComboBox:hover {
+    border-color: #94A3B8;
+}
+
+QLineEdit:focus, QComboBox:focus, QDateEdit:focus {
+    border: 1.5px solid #10B981;
+    background-color: #FFFFFF;
+}
+
+QSpinBox, QDoubleSpinBox {
+    background-color: #FFFFFF;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 8px;
+    padding: 6px 26px 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0F172A;
+    min-height: 22px;
+}
+
+QSpinBox:focus, QDoubleSpinBox:focus {
+    border: 1.5px solid #10B981;
+}
+
+QSpinBox::up-button, QDoubleSpinBox::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+    width: 22px;
+    height: 17px;
+    border-left: 1px solid #E2E8F0;
+    border-bottom: 0.5px solid #E2E8F0;
+    border-top-right-radius: 7px;
+    background-color: #F8FAFC;
+    margin-right: 1px;
+    margin-top: 1px;
+}
+
+QSpinBox::up-button:hover, QDoubleSpinBox::up-button:hover {
+    background-color: #ECFDF5;
+}
+
+QSpinBox::up-arrow, QDoubleSpinBox::up-arrow {
+    image: url(resources/arrow_up.svg);
+    width: 9px;
+    height: 9px;
+}
+
+QSpinBox::up-arrow:hover, QDoubleSpinBox::up-arrow:hover {
+    image: url(resources/arrow_up_hover.svg);
+}
+
+QSpinBox::down-button, QDoubleSpinBox::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    width: 22px;
+    height: 17px;
+    border-left: 1px solid #E2E8F0;
+    border-top: 0.5px solid #E2E8F0;
+    border-bottom-right-radius: 7px;
+    background-color: #F8FAFC;
+    margin-right: 1px;
+    margin-bottom: 1px;
+}
+
+QSpinBox::down-button:hover, QDoubleSpinBox::down-button:hover {
+    background-color: #ECFDF5;
+}
+
+QSpinBox::down-arrow, QDoubleSpinBox::down-arrow {
+    image: url(resources/arrow_down.svg);
+    width: 9px;
+    height: 9px;
+}
+
+QSpinBox::down-arrow:hover, QDoubleSpinBox::down-arrow:hover {
+    image: url(resources/arrow_down_hover.svg);
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+    width: 28px;
+    border-left: 1px solid #E2E8F0;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    background-color: #F8FAFC;
+    margin-right: 1px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+QComboBox::drop-down:hover {
+    background-color: #ECFDF5;
+}
+
+QComboBox::down-arrow {
+    image: url(resources/arrow_down.svg);
+    width: 12px;
+    height: 12px;
+}
+
+QComboBox::down-arrow:hover, QComboBox::down-arrow:on {
+    image: url(resources/arrow_down_hover.svg);
+    width: 12px;
+    height: 12px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    selection-background-color: #ECFDF5;
+    selection-color: #065F46;
+    padding: 4px;
+}
+
+QGroupBox {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    margin-top: 18px;
+    padding: 18px 16px 16px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #0F172A;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: 0 8px;
+    background-color: #FFFFFF;
+    color: #0F172A;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+QPushButton {
+    background-color: #10B981;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    min-height: 20px;
+}
+
+QPushButton:hover {
+    background-color: #059669;
+}
+
+QPushButton:pressed {
+    background-color: #047857;
+}
+
+QPushButton:disabled {
+    background-color: #CBD5E1;
+    color: #94A3B8;
+}
+
+/* Secondary Button */
+QPushButton#SecondaryBtn, QPushButton.SecondaryBtn {
+    background-color: #FFFFFF;
+    color: #334155;
+    border: 1px solid #CBD5E1;
+}
+
+QPushButton#SecondaryBtn:hover, QPushButton.SecondaryBtn:hover {
+    background-color: #F8FAFC;
+    border-color: #94A3B8;
+}
+
+/* Danger / Delete Button */
+QPushButton#DangerBtn, QPushButton.DangerBtn {
+    background-color: #EF4444;
+    color: #FFFFFF;
+}
+
+QPushButton#DangerBtn:hover, QPushButton.DangerBtn:hover {
+    background-color: #DC2626;
+}
+
+/* Table embedded buttons */
+QTableWidget QPushButton, QTableView QPushButton {
+    min-height: 26px;
+    height: 26px;
+    padding: 2px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 6px;
+    margin: 0px;
+    background-color: #0284C7;
+    color: #FFFFFF;
+    border: none;
+}
+
+QTableWidget QPushButton:hover, QTableView QPushButton:hover {
+    background-color: #0369A1;
+    color: #FFFFFF;
+}
+
+QPushButton#TableActionBtn, QPushButton.TableActionBtn,
+QTableWidget QPushButton#TableActionBtn, QTableView QPushButton#TableActionBtn {
+    background-color: #10B981;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: 11px;
+    font-weight: 800;
+    min-height: 26px;
+    max-height: 28px;
+    height: 28px;
+    margin: 0px;
+}
+
+QPushButton#TableActionBtn:hover,
+QTableWidget QPushButton#TableActionBtn:hover, QTableView QPushButton#TableActionBtn:hover {
+    background-color: #059669;
+    color: #FFFFFF;
+}
+
+QPushButton#TableActionBtn:pressed,
+QTableWidget QPushButton#TableActionBtn:pressed, QTableView QPushButton#TableActionBtn:pressed {
+    background-color: #047857;
+    color: #FFFFFF;
+}
+
+QPushButton#TableDeleteBtn, QPushButton.TableDeleteBtn,
+QTableWidget QPushButton#TableDeleteBtn, QTableView QPushButton#TableDeleteBtn {
+    background-color: #FEE2E2;
+    color: #DC2626;
+    border: 1px solid #FCA5A5;
+    border-radius: 6px;
+    padding: 0px;
+    font-size: 12px;
+    font-weight: 800;
+    min-height: 26px;
+    max-height: 28px;
+    height: 28px;
+    margin: 0px;
+}
+
+QPushButton#TableDeleteBtn:hover,
+QTableWidget QPushButton#TableDeleteBtn:hover, QTableView QPushButton#TableDeleteBtn:hover {
+    background-color: #DC2626;
+    color: #FFFFFF;
+    border-color: #DC2626;
+}
+
+/* ==========================================================================
+   Tables & Lists (SaaS Flat Enterprise Tables)
+   ========================================================================== */
+QTableWidget, QTableView {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    gridline-color: #F1F5F9;
+    font-size: 13px;
+    color: #1E293B;
+    alternate-background-color: #FBFCFD;
+    selection-background-color: #E0F2FE;
+    selection-color: #0369A1;
+    outline: none;
+}
+
+QTableWidget::item, QTableView::item {
+    padding: 6px 10px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+QTableWidget::item:selected, QTableView::item:selected {
+    background-color: #E0F2FE;
+    color: #0369A1;
+    font-weight: 600;
+}
+
+QTableWidget::item:focus, QTableView::item:focus {
+    background-color: #E0F2FE;
+    color: #0369A1;
+    border: none;
+    outline: none;
+}
+
+QHeaderView::section {
+    background-color: #F8FAFC;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 12px;
+    border: none;
+    border-bottom: 1.5px solid #E2E8F0;
+    border-right: 1px solid #F1F5F9;
+}
+
+/* ==========================================================================
+   Tabs (Clean Modern Pill / Underline Tabs)
+   ========================================================================== */
+QTabWidget::pane {
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    padding: 16px;
+    top: -1px;
+}
+
+QTabBar::tab {
+    background-color: #F1F5F9;
+    color: #64748B;
+    border: 1px solid #E2E8F0;
+    border-bottom: none;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 8px 18px;
+    margin-right: 4px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+QTabBar::tab:selected {
+    background-color: #FFFFFF;
+    color: #10B981;
+    border-color: #E2E8F0;
+    border-bottom: 2px solid #10B981;
+    font-weight: 700;
+}
+
+QTabBar::tab:hover:!selected {
+    background-color: #E2E8F0;
+    color: #0F172A;
+}
+
+/* ==========================================================================
+   Login Dialog Styling
+   ========================================================================== */
+#LoginTitle {
+    font-size: 26px;
+    font-weight: 800;
+    color: #0F172A;
+    letter-spacing: -0.5px;
+}
+
+#ErrorLabel {
+    color: #C0392B;
+    background-color: #FDEDEC;
+    border: 1px solid #F5B7B1;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* ==========================================================================
+   Modern Minimal Scrollbars
+   ========================================================================== */
+QScrollBar:vertical {
+    background-color: transparent;
+    width: 8px;
+    margin: 0;
+}
+
+QScrollBar::handle:vertical {
+    background-color: #CBD5E1;
+    border-radius: 4px;
+    min-height: 24px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background-color: #94A3B8;
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical,
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none;
+    border: none;
+}
+
+QScrollBar:horizontal {
+    background-color: transparent;
+    height: 8px;
+    margin: 0;
+}
+
+QScrollBar::handle:horizontal {
+    background-color: #CBD5E1;
+    border-radius: 4px;
+    min-width: 24px;
+}
+
+QScrollBar::handle:horizontal:hover {
+    background-color: #94A3B8;
+}
+
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal,
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+    background: none;
+    border: none;
+}
+
+/* ==========================================================================
+   Custom Window Title Bar & Frameless Modal Dialogs
+   ========================================================================== */
+#CustomTitleBar {
+    background-color: #0F172A;
+    border: none;
+}
+
+#CustomTitleBar QLabel {
+    background-color: transparent;
+}
+
+#TitleBarAppName {
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 800;
+    background-color: transparent;
+}
+
+#TitleBarDot {
+    color: #10B981;
+    font-size: 12px;
+    font-weight: 900;
+    background-color: transparent;
+}
+
+#TitleBarTag {
+    color: #CBD5E1;
+    font-size: 11px;
+    font-weight: 600;
+    background-color: transparent;
+}
+
+QDialog, QDialog#FramelessModalDialog {
+    background-color: #FFFFFF;
+    border: 1.5px solid #94A3B8;
+}
+
+#DialogHeaderBanner {
+    background-color: #0F172A;
+    border: none;
+}
+
+#DialogHeaderBanner QLabel {
+    background-color: transparent;
+}
+
+#DialogBannerTitle {
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 800;
+    background-color: transparent;
+}
+
+#DialogBannerSub {
+    color: #CBD5E1;
+    font-size: 11.5px;
+    font-weight: 500;
+    background-color: transparent;
+}
+
